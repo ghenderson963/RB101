@@ -1,0 +1,3 @@
+Truthiness - we can use any expression in a conditional, or with logical operators, and as long as it 
+  doesn't evaluate to false or nil, it is considered true 
+test
