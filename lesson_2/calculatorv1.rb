@@ -37,7 +37,7 @@ while play_again == 'y'
     if num2.to_i == 0
       "Can't divide by 0"
     else
-      num1.to_i / num2.to_i
+      num1.to_f / num2.to_f
     end
   end
   
@@ -52,7 +52,7 @@ while play_again == 'y'
     if num2.to_i == 0
       puts "Can't divide by zero." 
     else
-      puts "#{num1} + #{num2} = #{divide(num1,num2)}"
+      puts "#{num1} / #{num2} = #{divide(num1,num2)}"
     end
   end
 
