@@ -49,7 +49,11 @@ while play_again == 'y'
   when 'm'
     puts "#{num1} * #{num2} = #{multiply(num1, num2)}"
   else
-    puts "#{num1} + #{num2} = #{divide(num1,num2)}"
+    if num2.to_i == 0
+      puts "Can't divide by zero." 
+    else
+      puts "#{num1} + #{num2} = #{divide(num1,num2)}"
+    end
   end
 
   puts "Calculate more numbers? (y)es or (n)o?"
