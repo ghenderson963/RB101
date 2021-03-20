@@ -1,0 +1,26 @@
+1. a method that returns the sum of two integers.
+start
+define a method that excepts 2 variables.
+add the 2 variables together
+return an integer
+
+2. a method that takes an array of strings, and returns a string that is all those strings concatednated
+together
+
+START
+SET iterator = 0
+SET result_str = concatenated strings
+
+WHILE iterator < lenth of string
+  SET result_str = result_str + current_string
+  iterator + 1
+END
+PRINT result_str
+
+3. a method that takes an array of integers, and returns a new array with every other element
+START
+Use select to iterate through array of integers
+IF index is odd? select that element
+end
+PRINT what is return by the method
+
