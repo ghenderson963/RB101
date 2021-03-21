@@ -11,6 +11,19 @@ def valid_number?(num)
   num.to_i != 0
 end
 
+def answer_to_expression(answer)
+  case answer
+  when '1'
+    'Adding'
+  when '2'
+    'Subtracting'
+  when '3'
+    'Multiplying'
+  when '4'
+    'Dividing'
+  end
+end
+
 prompt("Welcome to calculator!")
 
 loop do
@@ -66,6 +79,8 @@ loop do
            when '4'
              num1.to_f / num2.to_f
            end
+
+  prompt("#{answer_to_expression(answer)} the two numbers....")
 
   prompt("The answer is #{result}")
 
