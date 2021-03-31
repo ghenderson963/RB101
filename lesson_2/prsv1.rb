@@ -7,18 +7,6 @@ def prompt(msg)
   puts "==> #{msg}"
 end
 
-def display_running_dots(sleep_length)
-  sleep_length.times do
-    print '.'
-    sleep 1
-  end
-  puts '.'
-end
-
-def who_goes_first
-  [:player1, :computer].sample
-end
-
 def display_player_choices
   player_prompt = <<~MSG
                   Select your choice from below?
@@ -31,37 +19,48 @@ end
 
 def players_turn
   display_player_choices
-  gets.chomp
+  case gets.chomp
+  when '1'
+    'paper'
+  when '2'
+    'rock'
+  when '3'
+    'scissors'
+  end
 end
 
 def computer_turn
-
+  ['paper','rock','scissors'].sample
 end
 
-def switch_player(player)
-  player = 'computer' if player = 'player1'
-  player = 'player1' if player = 'computer'  
-end
+players_choice = ''
+computers_choice = ''
+winner = ''
 
 system "clear"
 prompt "Welcome to Paper, Rock, Scissors!"
 prompt "You are player1."
-prompt "Rolling dice to see who goes first."
-display_running_dots(3)
-current_player = who_goes_first.to_s
-prompt  "#{current_player.capitalize} goes first!"
 
-loop do
-  if current_player == 'player1'
-    players_choice = players_turn
-  else
-    computers_choice = computer_turn
-  end
-  current_player = switch_player(current_player)
-  break
+players_choice = players_turn
+computers_choice = computer_turn
+
+system 'clear'
+prompt "You picked #{players_choice}"
+prompt "The computer chose #{computers_choice}"
+
+if players_choice == 'scissors' && computers_choice == 'paper'
+  winner = 'player1'
+elsif players_choice == 'rock' && computers_choice == 'scissors'
+  winner = 'player1'
+elsif players_choice == 'paper' && computers_choice == 'rock'
+  winner = 'player1'
+elsif players_choice == 'rock' && computers_choice == 'paper'
+  winner = 'computer'
+elsif players_choice == 'scissors' && computers_choice == 'rock'
+  winner = 'computer'
+else 
+  puts "it's a tie."
 end
 
-
-
-
-
+prompt "The #{winner.capitalize} is the winner!" if winner == 'computer'
+prompt "You win!!!!" if winner == 'player1'
