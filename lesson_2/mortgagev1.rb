@@ -83,3 +83,5 @@ loop do
   prompt("Would you like to calculate another loan payment? (y)es or (N)o")
   break unless ['y', 'yes'].include?(gets.chomp.downcase)
 end
+
+prompt('Goodbye.')
