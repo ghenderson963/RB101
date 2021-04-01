@@ -2,7 +2,6 @@
 # the computer makes a choice
 # the winner is displayed
 
-
 def prompt(msg)
   puts "==> #{msg}"
 end
@@ -18,7 +17,18 @@ def display_player_choices
 end
 
 def validate_choice(number)
-  ['1','2','3'].include?(number)
+  ['1', '2', '3'].include?(number)
+end
+
+def convert_number_to_prs(choice)
+  case choice
+  when '1'
+    'paper'
+  when '2'
+    'rock'
+  when '3'
+    'scissors'
+  end
 end
 
 def players_turn
@@ -32,22 +42,13 @@ def players_turn
     prompt "Select a number 1 - 3. It's not hard."
   end
 
-  case choice
-  when '1'
-    'paper'
-  when '2'
-    'rock'
-  when '3'
-    'scissors'
-  end
+  convert_number_to_prs(choice)
 end
 
 def computer_turn
-  ['paper','rock','scissors'].sample
+  ['paper', 'rock', 'scissors'].sample
 end
 
-players_choice = ''
-computers_choice = ''
 winner = ''
 
 system "clear"
@@ -71,7 +72,7 @@ elsif players_choice == 'rock' && computers_choice == 'paper'
   winner = 'computer'
 elsif players_choice == 'scissors' && computers_choice == 'rock'
   winner = 'computer'
-else 
+else
   puts "it's a tie."
 end
 
