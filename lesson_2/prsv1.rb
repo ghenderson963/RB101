@@ -17,9 +17,22 @@ def display_player_choices
   prompt(player_prompt)
 end
 
+def validate_choice(number)
+  ['1','2','3'].include?(number)
+end
+
 def players_turn
-  display_player_choices
-  case gets.chomp
+  choice = ''
+  loop do
+    display_player_choices
+    choice = gets.chomp
+    break if validate_choice(choice)
+    system "clear"
+    prompt "Come on.  It's paper, rock, scissors."
+    prompt "Select a number 1 - 3. It's not hard."
+  end
+
+  case choice
   when '1'
     'paper'
   when '2'
