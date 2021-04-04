@@ -51,7 +51,7 @@ famous_words.prepend("four score and ")
 arr = ["Fred", "Wilma", ["Barney", "Betty"], ["BamBam", "Pebbles"]]
 arr.flatten!
 
-# 8. Using the hash below turn it into an array containing only 2 elements: Barney's anme and number
+# 8. Using the hash below turn it into an array containing only 2 elements: Barney's name and number
 flintstones = { "Fred" => 0, "Wilma" => 1, "Barney" => 2, "Betty" => 3, "BamBam" => 4, "Pebbles" => 5 }
-
+flintstones.assoc('barney')
 
