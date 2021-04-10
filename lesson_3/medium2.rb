@@ -174,3 +174,24 @@ end
 puts color_valid('blue')
 puts color_valid('green')
 puts color_valid('pink')
+
+arr = ['a', 'b', 'c', 'd']
+arr.each { |element| puts "The #{element} is a letter."}
+The a is a letter.
+The b is a letter.
+The c is a letter.
+The d is a letter.
+ => ["a", "b", "c", "d"]
+
+ str1 = 'Hello Mr. Johnson'
+ str1.slice(4..9)
+ => "o Mr. "
+
+ arr.each do |element|
+  puts element
+ end
+
+ str = 'hello there world'
+ str.gsub('e','3')
+ => "h3llo th3r3 world"
+ str = 'hello there world'
