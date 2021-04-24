@@ -92,4 +92,34 @@ end
 
 puts titleize('gary is great')
 
-# 10.  
+# 10. Modify the hash below so that each member of the Munster family has an additional "age_group" key that has 
+# one of 3 values describing the age group the family member is in Kid, adult or senior.  
+# kid 0-17 adult 18-64 senior 65+ 
+munsters = {
+  "Herman" => { "age" => 32, "gender" => "male" },
+  "Lily" => { "age" => 30, "gender" => "female" },
+  "Grandpa" => { "age" => 402, "gender" => "male" },
+  "Eddie" => { "age" => 10, "gender" => "male" },
+  "Marilyn" => { "age" => 23, "gender" => "female"}
+}
+
+# iterate through the hash 
+# if a person is between 0-17 add a key "age_group" and value kid
+# if a person is between 18-64 add a key "age_group" and value adult
+# if a person is greater than 64 add a key "age_group" and value senior
+
+# key = Herman value = { 'age' => 32, 'gender' => 'male', age_group => adult}
+# "Herman"[]
+
+munsters.each do |person, attributes|
+  case 
+  when attributes['age'].between?(0,17)
+    attributes["age_group"] = "kid"
+  when attributes['age'].between?(18,64)
+    attributes["age_group"] = "adult"
+  when attributes['age'] > 64
+    attributes["age_group"] = "senior"
+  end
+end
+
+puts munsters
