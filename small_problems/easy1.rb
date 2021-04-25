@@ -159,3 +159,102 @@ end
  puts reverse_words('Professional')          # => lanoisseforP
  puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
  puts reverse_words('Launch School')         # => hcnuaL loohcS
+
+ # Write a method that takes one argument, a positive integer, and returns a string of alternating 1s and 0s, always starting with
+ # 1.  The length of the string should match the given integer.
+# input: integer
+# output: string of 1s and 0s
+#
+# initialize an empty string to hold the 1 and 0s
+# loop the number of times of the iteger
+# each iteration add a 1 or zero
+#   -- check the number of iterations if odd put a 1 if even put a 0
+# return the string
+
+def stringy(num)
+  result = ''
+  num.times do |count|
+    result << '1' if count.even?
+    result << '0' if count.odd?
+  end
+  result
+end
+
+puts stringy(6) == '101010'
+puts stringy(9) == '101010101'
+puts stringy(4) == '1010'
+puts stringy(7) == '1010101'
+puts stringy(0)
+
+# add an arguement to the method above that allows you to pick which to start with 1 or 0
+# ex. puts stringy(4,0) => '0101'
+# - Initiate a string to save the results to
+# - initialize a string to track whether we are on a 1 or a 0 - set the string to the argument
+# - iterate the number of times of the argument
+# - for each iteration 
+# -   add the character to the string
+# -   change the character ig. if it is a 1 make it a 0 etc.
+# - return the result string
+#
+def stringy2(num, character = 0)
+  result = ' '
+  num.times do
+    result << character.to_s
+    character = character == '1' ? '0' : '1'
+  end
+  result
+end
+
+puts stringy2(5,'0')
+puts stringy2(3,'1')
+puts stringy2(34)
+
+# Array Average - Write a method that takes one argument an array containing integers, and returns the average of all numbers
+# in the array.  The array will never be empty and the numbers will always be positive integers.
+# - Input array
+# - Output integer
+# average = the sum / number of elements
+#
+# - sum the array and divide it by length of the array
+# - return the average
+
+def average(arr)
+  arr.inject(:+) / arr.length
+end
+
+puts average([1, 6]) == 3 # integer division: (1 + 6) / 2 -> 3
+puts average([1, 5, 87, 45, 8, 8]) == 25
+puts average([9, 47, 23, 95, 16, 52]) == 40
+
+# Write a method that takes one argument, a positive integer, and returns the sum of its digits.
+# def sum(num)
+#   num.to_s.chars.inject([]) do |arr, element|
+#     arr << element.to_i
+#   end.inject(:+)
+# end
+
+def sum(num)
+  num.to_s.chars.map(&:to_i).inject(:+)
+end
+
+puts sum(23) == 5
+puts sum(496) == 19
+puts sum(123_456_789) == 45
+
+# Write a method that takes 2 arguments, a positive integer and a boolean, and calculates the bonus for a given salary.
+# If the boolean is true, the bonus should be half of the salary.  If the boolean is false, the bonus should be 0.
+# - Input: positive integer and boolean
+# - Output: integer
+# if true
+#   - total / 2
+# else
+#  - 0
+# 
+def calculate_bonus(salary, bonus)
+  bonus ? salary / 2 : 0
+end
+
+
+puts calculate_bonus(2800, true) == 1400
+puts calculate_bonus(1000, false) == 0
+puts calculate_bonus(50000, true) == 25000
