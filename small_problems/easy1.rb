@@ -80,10 +80,8 @@ puts digit_list(444) == [4, 4, 4]             # => true
 
 def count_occurrences(arr)
   occurances = {}
-  arr.each do |vehicle|
-    if !occurances.has_key?(vehicle)
+  arr.uniq.each do |vehicle|
       occurances[vehicle] = arr.count(vehicle)
-    end
   end
   display_hash(occurances)
 end
@@ -98,3 +96,66 @@ vehicles = [
 ]
 
 count_occurrences(vehicles)
+
+# Write a method that takes one argument -string- and returns a new string with the words in reverse order.
+# input - string
+# output - reversed string
+# 
+# - initialize a string for the result
+# - split the string on the spaces
+# - iterate through the resulting array backwards
+# - adding each substring to the result string with a space in the middle of each substring
+#  
+def reverse_sentence(str)
+  reversed  = []
+  substring = str.split(' ')
+  counter = -1
+
+  loop do
+    break if counter < -substring.length
+    reversed << substring[counter]
+    counter -= 1
+  end
+
+  reversed.join(' ')
+end
+
+puts reverse_sentence('') == ''
+puts reverse_sentence('Hello World') == 'World Hello'
+puts reverse_sentence('Reverse these words') == 'words these Reverse'
+
+# Write a method that takes one argument - a string containing one or more words and returns the given string with words
+# that contain 5 or more characters reversed.  
+# - each string will consist of only letters and spaces.
+# - spaces should only be included when there are more than one word
+#
+# - split the string on spaces and add to an array
+# - iterate through the array
+# - if the current substring has more than 5 characters reverse it
+# - convert the array back to a string
+
+# def reverse_words(str)
+#   list = str.split.map do |word|
+#     if word.size >= 5
+#       word.reverse
+#     else
+#       word
+#     end
+#   end
+#   list.join(' ')
+# end
+
+def reverse_words(str)
+  words = []
+
+  str.split.each do |word|
+    word.reverse! if word.length >= 5
+    words << word
+  end
+
+  words.join(' ')
+end
+
+ puts reverse_words('Professional')          # => lanoisseforP
+ puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
+ puts reverse_words('Launch School')         # => hcnuaL loohcS

@@ -122,3 +122,7 @@ gerrys index is 3!
   str = 'gary is the boss'
   str.scan('s')
   => ['s', 's', 's']
+
+  arr = [1,1,1,2,3]
+  arr.uniq
+  => [1,2,3]
