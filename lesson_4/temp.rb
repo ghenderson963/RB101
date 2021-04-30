@@ -151,3 +151,12 @@ gerrys index is 3!
   => 3.46
   num
    => 3.456754
+
+   %[flags][width][.precision]type
+
+   .49403
+   format(%.3f,num)
+
+   %[flags][width][.precision]type
+   format("%20.3f",num)
+   => "               0.494"
