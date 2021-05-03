@@ -90,11 +90,67 @@ end
 # Print all odd numbers from 1 to 99, inclusive to the console with each number on a separate line.
 (1..99).each { |num| puts num if num.odd? }
 
+1.upto(99).each { |num| puts num if num.odd? }
 
+counter = 1
+loop do 
+  break if counter >= 100
+  puts counter if counter.odd?
+  counter += 1
+end
 
+# Write a program that asks the user to enter an integer greater than 0, then asks if the user wants to 
+# determine the sum or product of all numbers between 1 and the entered integer.
+# 
+# 
+def check_int(num)
+  num.to_s == num.to_i.to_s
+end
 
+def sum_from_zero(num)
+  1.upto(num.to_i).inject(:+)
+end
 
+def product_from_zero(num)
+  1.upto(num.to_i).inject(:*)
+end
 
+num = ' '
+until check_int(num)
+ puts "Please enter an integer greater than 0: "
+ num = gets.chomp
+end
 
+operation = ''
+loop do 
+  puts "Enter 's' to compute the sum, 'p' to compute the product."
+  operation = gets.chomp.downcase
+  break if ['s','p'].include?(operation)
+end
 
+if operation == 'p'
+  puts "The product of the integers between 1 and #{num} is #{product_from_zero(num)}."
+else
+  puts "The sum of the integers between 1 and #{num} is #{sum_from_zero(num)}."
+end
 
+# Explain the results below.
+name = 'Bob'
+save_name = name
+name.upcase!
+puts name, save_name
+
+# BOB BOB
+# name is set to point at a string object.
+# save_name is set to point at the same object.
+# The method upcase! is used with name.  The upcase with the ! mutates the caller to name is changed.
+# since both varibles point to the string object "Bob" and Bob is changed to BOB both print the same thing.
+
+# What will the code below print and why?  
+array1 = %w(Moe Larry Curly Shemp Harpo Chico Groucho Zeppo)
+array2 = []
+array1.each { |value| array2 << value }
+array1.each { |value| value.upcase! if value.start_with?('C', 'S') }
+puts array2
+
+# ['Moe, Larry, CURLY, SHEMP, Harpo, CHICO, Groucho, Zeppo]
