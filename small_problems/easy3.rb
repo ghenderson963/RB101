@@ -48,5 +48,4 @@ last = numbers.pop
 puts "The number #{last} appears in #{numbers}" if numbers.include?(last)
 puts "The number #{last} does not appear in #{numbers}." if !numbers.include?(last)
 
-numbers.include?(num)
   
