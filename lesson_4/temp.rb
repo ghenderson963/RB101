@@ -160,3 +160,8 @@ gerrys index is 3!
    %[flags][width][.precision]type
    format("%20.3f",num)
    => "               0.494"
+
+   str = 'gary henderson is great'
+   => "gary henderson is great"
+   str.sub('great', 'dumb')
+   => "gary henderson is dumb"
