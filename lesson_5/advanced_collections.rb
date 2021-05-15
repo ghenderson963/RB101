@@ -219,4 +219,3 @@ def create_uuid
   new_uuid
 end
 
-p create_uuid
