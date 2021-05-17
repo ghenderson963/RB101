@@ -48,7 +48,6 @@ def check_across(board, piece)
     else
       counter += 3
       break if counter > 8
-      next
     end
     return false
     end
@@ -73,11 +72,11 @@ def check_down(board,piece)
 end
 
 def check_diagonal(board, piece)
-  if [board[0],board[4], board[8]].count == 2
-    [board[0],board[4], board[8]].each do |square|
+  if [board[0], board[4], board[8]].count(piece) == 2
+    [board[0], board[4], board[8]].each do |square|
       return square unless square == piece 
     end
-  elsif [board[2],board[4],board[6]].count == 2
+  elsif [board[2],board[4],board[6]].count(piece) == 2
     [board[2],board[4],board[6]].each do |square|
       return square unless square == piece
     end
@@ -87,19 +86,65 @@ def check_diagonal(board, piece)
     #          [[arr[2],[arr[4],arr[6]]
 end
 
+def check_middle(board, current_player)
+  return 4 if board[4] == 4
+end
+
+def random_square(board, current_player)
+  loop do
+    square = board.sample 
+    return square if (0..8).include?(square)
+  end
+
+end
+
 def computer_turn(board,piece)
   current_player = 'computer'
-  place_piece(board,current_player,check_across(board,piece)) if check_across(board,piece)
-  place_piece(board,current_player,check_down(board, piece)) if check_down(board,piece)
-  place_piece(board,current_player,check_diagonal(board, piece)) if check_diagonal(board, piece)
-
+  if check_across(board,piece)
+    place_piece(board,current_player,check_across(board,piece))
+  elsif check_down(board,piece)
+    place_piece(board,current_player,check_down(board, piece))
+  elsif check_diagonal(board, piece)
+    place_piece(board,current_player,check_diagonal(board, piece))
+  elsif check_middle(board, piece)
+    place_piece(board, current_player, check_middle(board,piece))
+  else
+    binding.pry
+    place_piece(board, current_player, random_square(board, piece))
+  end
 end
 
 piece = 'X'
 current_player = 'computer'
-board = [0,'X',2,3,'X',5,6,7,8]
+board = [0,1,2,3,'X',5,6,7,8]
 computer_turn(board, piece)
 p board
+
+#across test
+current_player = 'computer'
+board = [0,1,2,3,4,5,'O','O','O']
+computer_turn(board)
+
+#down test
+current_player = 'computer'
+board = [0,1,'O',3,4,'O',6,7,'O']
+computer_turn(board)
+
+# diagonal test
+current_player = 'computer'
+board = [0,1,'O',3,'O',5,'O',7,8]
+computer_turn(board)
+
+# middle test
+current_player = 'computer'
+board = [0,1,2,3,'O',5,6,7,8]
+computer_turn(board)
+
+# clean board random test
+current_player = 'computer'
+board = [0,1,2,3,4,5,6,7,8]
+computer_turn(board)
+
 # p check_across(board,piece)
 # p check_down(board, piece)
 # p check_diagonal(board, piece)
