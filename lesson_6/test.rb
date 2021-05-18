@@ -33,24 +33,24 @@ def place_piece(board,current_player,square)
   else
     board[square] = 'O'
   end
+  board
 end
 
 def check_across(board, piece)
   counter = 0
   loop do
-    # binding.pry
+
     if board[counter,3].count(piece) == 2
       board[counter,3].each do |square|
-        #binding.pry
         return square unless square == piece
       end
-        break
     else
       counter += 3
       break if counter > 8
     end
-    return false
-    end
+  end
+
+  return false
   end
 
 def check_down(board,piece)
@@ -58,7 +58,7 @@ def check_down(board,piece)
   loop do
     #binding.pry
     if [board[counter],board[counter + 3], board[counter + 6]].count(piece) == 2
-      binding.pry
+      #binding.pry
       [board[counter],board[counter + 3], board[counter + 6]].each do |square|
         return square unless square == piece
       end
@@ -73,6 +73,7 @@ end
 
 def check_diagonal(board, piece)
   if [board[0], board[4], board[8]].count(piece) == 2
+    #binding.pry
     [board[0], board[4], board[8]].each do |square|
       return square unless square == piece 
     end
@@ -109,41 +110,41 @@ def computer_turn(board,piece)
   elsif check_middle(board, piece)
     place_piece(board, current_player, check_middle(board,piece))
   else
-    binding.pry
     place_piece(board, current_player, random_square(board, piece))
   end
 end
 
-piece = 'X'
-current_player = 'computer'
-board = [0,1,2,3,'X',5,6,7,8]
-computer_turn(board, piece)
-p board
-
+# piece = 'X'
+# current_player = 'computer'
+# board = [0,1,2,3,'X',5,6,7,8]
+# computer_turn(board, piece)
+# p board
+piece = 'O'
 #across test
 current_player = 'computer'
-board = [0,1,2,3,4,5,'O','O','O']
-computer_turn(board)
+board = [0,1,2,3,4,5,'O','O',8]
+puts computer_turn(board,piece) == [0,1,2,3,4,5,'O','O','O']
 
-#down test
+# down test - should play square 8
 current_player = 'computer'
-board = [0,1,'O',3,4,'O',6,7,'O']
-computer_turn(board)
+board = [0,1,'O',3,4,'O',6,7,8]
+puts computer_turn(board, piece) == [0,1,'O',3,4,'O',6,7,'O']
 
-# diagonal test
+# diagonal test - should play square 6
 current_player = 'computer'
-board = [0,1,'O',3,'O',5,'O',7,8]
-computer_turn(board)
+board = [0,1,'O',3,'O',5,6,7,8]
+puts computer_turn(board, piece) == [0,1,'O',3,'O',5,'O',7,8]
 
-# middle test
-current_player = 'computer'
-board = [0,1,2,3,'O',5,6,7,8]
-computer_turn(board)
-
-# clean board random test
+# middle test - should play square 4
 current_player = 'computer'
 board = [0,1,2,3,4,5,6,7,8]
-computer_turn(board)
+p computer_turn(board, piece) == [0,1,2,3,'O',5,6,7,8]
+
+# clean board random test - should play random square
+current_player = 'computer'
+board = [0,1,2,3,'O',5,6,7,8]
+p computer_turn(board, piece) 
+
 
 # p check_across(board,piece)
 # p check_down(board, piece)
