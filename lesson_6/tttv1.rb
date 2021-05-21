@@ -102,17 +102,28 @@ def place_piece(board,current_player,square)
   end
 end
 
-def square_free?(board, piece)
-  board[piece] != 'X' || board[piece] != 'O'
+def square_free?(board, square)
+  board[square] != 'X' || board[square] != 'O'
 end
 
-def check_across(board, piece)
+def place_piece(board,current_player,square)
+
+  if current_player == 'player'
+    board[square] = 'X'
+  else
+    board[square] = 'O'
+
+  end
+  board
+end
+
+def check_across(board)
   counter = 0
   loop do
 
-    if board[counter,3].count(piece) == 2
+    if board[counter,3].count('X') == 2 || board[counter,3].count('O') == 2
       board[counter,3].each do |square|
-        return square unless square == piece
+        return square unless square == 'O' || square == 'X'
       end
     else
       counter += 3
@@ -123,32 +134,32 @@ def check_across(board, piece)
   return false
   end
 
-def check_down(board,piece)
+def check_down(board)
   counter = 0
   loop do
 
-    if [board[counter],board[counter + 3], board[counter + 6]].count(piece) == 2
+    if [board[counter], board[counter + 3], board[counter + 6]].count('X') == 2 || [board[counter], board[counter + 3], board[counter + 6]].count('O') == 2
       [board[counter],board[counter + 3], board[counter + 6]].each do |square|
-        return square unless square == piece
+        return square unless square == 'X' || square == 'O'
       end
     else
       counter += 1
       break if counter > 2
     end
-
   end
+
   return false
 end
 
-def check_diagonal(board, piece)
-  if [board[0], board[4], board[8]].count(piece) == 2
-    [board[0], board[4], board[8]].each do |square|
-      return square unless square == piece 
-    end
+def check_diagonal(board)
 
-  elsif [board[2],board[4],board[6]].count(piece) == 2
+  if [board[0], board[4], board[8]].count('X') == 2 || [board[0], board[4], board[8]].count('O') == 2
+    [board[0], board[4], board[8]].each do |square|
+      return square unless square == 'X' || square == 'O'
+    end
+  elsif [board[2],board[4],board[6]].count('X') == 2 || [board[2],board[4],board[6]].count('O') == 2
     [board[2],board[4],board[6]].each do |square|
-      return square unless square == piece
+      return square unless square == 'X' || square == 'O'
     end
   else
     return false
@@ -156,30 +167,28 @@ def check_diagonal(board, piece)
 
 end
 
-def check_middle(board, current_player)
-  return 5 if board[4] == 5
+def check_middle(board)
+  return 4 if board[4] == 4
 end
 
 def random_square(board)
   loop do
-    square = board.sample
-    binding.pry
-    return square.to_i if (1..9).include?(square.to_i)
+    square = board.sample 
+    return square if (0..8).include?(square)
   end
 
 end
 
-def computer_turn(board,piece)
-  binding.pry
+def computer_turn(board)
   current_player = 'computer'
-  if check_across(board,piece)
-    place_piece(board,current_player,check_across(board,piece))
-  elsif check_down(board,piece)
-    place_piece(board,current_player,check_down(board, piece))
-  elsif check_diagonal(board, piece)
-    place_piece(board,current_player,check_diagonal(board, piece))
-  elsif check_middle(board, piece)
-    place_piece(board, current_player, check_middle(board,piece))
+  if check_across(board)
+    place_piece(board,current_player,check_across(board))
+  elsif check_down(board)
+    place_piece(board,current_player,check_down(board))
+  elsif check_diagonal(board)
+    place_piece(board,current_player,check_diagonal(board))
+  elsif check_middle(board)
+    place_piece(board, current_player, check_middle(board))
   else
     place_piece(board, current_player, random_square(board))
   end
@@ -239,7 +248,7 @@ loop do
     display_table(board)
   else 
     binding.pry
-    computer_turn(board,'O')
+    computer_turn(board)
   end
 
   # place_piece(board,'player',player_input)
