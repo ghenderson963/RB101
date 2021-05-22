@@ -1,3 +1,5 @@
+require 'pry'
+
 def prompt(message)
   puts "==> #{message}"
 end
@@ -19,7 +21,7 @@ def display_table(board)
 end
 
 def pick_first_player
-  ['Player','Computer'].sample
+  ['Player', 'Computer'].sample
 end
 
 def choose_symbol
@@ -27,13 +29,13 @@ def choose_symbol
     puts ''
     prompt "Would you like to be Xs or Os?"
     player_piece = gets.chomp
-    return player_piece if ['X','O'].include?(player_piece)
+    return player_piece if ['X', 'O'].include?(player_piece)
     prompt "Please choose an X or an O."
   end
 end
 
-def set_computer_symbol(player_symbol)
-  player_symbol == 'X' ? computer_piece = 'O' : computer_piece = 'X'
+def computer_symbol(player_symbol)
+  player_symbol == 'X' ? 'O' : 'X'
 end
 
 def initialize_board
@@ -50,22 +52,15 @@ def square_free?(board, square)
   board[square] != 'X' && board[square] != 'O'
 end
 
-def place_piece(board,current_player,square, current_player_symbol)
-
-  if current_player == 'player'
-    board[square] = current_player_symbol
-  else
-    board[square] = current_player_symbol
-  end
-  board
+def place_piece(board, square, current_player_symbol)
+  board[square] = current_player_symbol
 end
 
 def check_across(board)
   counter = 0
   loop do
-
-    if board[counter,3].count('X') == 2 || board[counter,3].count('O') == 2
-      board[counter,3].each do |square|
+    if board[counter, 3].count('X') == 2 || board[counter, 3].count('O') == 2
+      board[counter, 3].each do |square|
         return square unless square == 'O' || square == 'X'
       end
     else
@@ -74,9 +69,7 @@ def check_across(board)
     end
     return false
   end
-
-  return false
-  end
+end
 
 def check_down(board)
   counter = 0
@@ -97,13 +90,12 @@ def check_down(board)
 end
 
 def check_diagonal(board)
-
   if [board[0], board[4], board[8]].count('X') == 2 || [board[0], board[4], board[8]].count('O') == 2
     [board[0], board[4], board[8]].each do |square|
       return square unless square == 'X' || square == 'O'
     end
-  elsif [board[2],board[4],board[6]].count('X') == 2 || [board[2],board[4],board[6]].count('O') == 2
-    [board[2],board[4],board[6]].each do |square|
+  elsif [board[2], board[4], board[6]].count('X') == 2 || [board[2], board[4], board[6]].count('O') == 2
+    [board[2], board[4], board[6]].each do |square|
       return square unless square == 'X' || square == 'O'
     end
   end
@@ -116,7 +108,7 @@ end
 
 def random_square(board)
   loop do
-    square = board.sample 
+    square = board.sample
     return square if (0..8).include?(square)
   end
 end
@@ -130,8 +122,6 @@ def check_last_square(board)
 end
 
 def computer_turn(board, current_player_symbol)
-  current_player = 'computer'
-
   if check_last_square(board)
     check_last_square(board) - 1
   elsif check_across(board)
@@ -147,13 +137,13 @@ def computer_turn(board, current_player_symbol)
   end
 end
 
-def player_turn(board, player_symbol)
+def player_turn(player_symbol)
   player_input = ''
     loop do 
       prompt "Select a square numbered 1-9."
       player_input = gets.chomp.to_i - 1
-      return player_input if (0..9).include?(player_input)
-      prompt "The number needs to be between 0 - 9!"
+      return player_input if (1..9).include?(player_input)
+      prompt "The number needs to be between 1 - 9!"
       puts ''
     end
     
@@ -200,7 +190,7 @@ loop do
   prompt "#{current_player} goes first!"
   
   player_symbol = choose_symbol
-  computer_symbol = set_computer_symbol(player_symbol)
+  computer_symbol = computer_symbol(player_symbol)
   current_player_symbol = current_player == 'Player' ? player_symbol : computer_symbol
   
   board = initialize_board
@@ -211,7 +201,7 @@ loop do
     loop do 
       square = current_player_turn(board,current_player, current_player_symbol)
       if square_free?(board, square)
-        place_piece(board, current_player, square, current_player_symbol)
+        place_piece(board, square, current_player_symbol)
         break
       else
         (1..9).include?(square) ? (prompt "That square is taken.  Please choose another.") : 
