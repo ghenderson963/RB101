@@ -150,7 +150,11 @@ def random_square(board)
 end
 
 def check_last_square(board)
-  board.count('X') + board.count('O') == 8
+  selection = []
+  if board.count('X') + board.count('O') == 8
+    selection = board.select { |square| square != 'X' && square != 'O' }
+  end
+  return selection[0] if selection[0]
 end
 
 def computer_turn(board, current_player_symbol)
@@ -215,7 +219,7 @@ system("clear")
 prompt "Welcome to Tic Tac Toe!"
 prompt "Choosing who goes first...."
 5.times do
-  sleep 0.5
+  sleep 0.25
   print '.'
 end
 puts '.'
@@ -231,7 +235,6 @@ display_table(board)
 square = 10
 loop do
   square = current_player_turn(board,current_player, current_player_symbol)
-  puts square_free?(board, square)
   if square_free?(board, square)
     place_piece(board, current_player, square, current_player_symbol)
   else
@@ -246,12 +249,16 @@ loop do
   prompt "#{current_player} choose to play square #{square + 1}."
   current_player = switch_player(current_player)
   current_player_symbol = current_player == 'Player' ? player_symbol : computer_symbol
+  sleep 1
 end
 display_table(board)
 
 puts ''
 board_full?(board) ? (prompt "Looks like it is a tie!") : (prompt "#{current_player} wins!")
 
+# check_last_square
+# board1 = ['X','O','X','O','X','O','X','O','X']
+# check_last_square(board1)
 
 # current_player = 'computer'
 # board = [0,1,2,3,4,5,'O','O',8]
