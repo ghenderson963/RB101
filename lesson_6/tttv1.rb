@@ -157,30 +157,18 @@ def current_player_turn(board, current_player, player_symbol)
   current_player == 'Player' ? player_turn(board) : computer_turn(board)
 end
 
-def winner?(board)
-
-  counter = 0
-  loop do 
-    return true if board[counter, 3].count('X') == 3 || board[counter, 3].count('O') == 3
-    break if counter > 7
-    counter += 3
-  end
-
-  counter = 0
-  loop do
-    if [board[counter], board[counter + 3], board[counter + 6]].count('X') == 3 ||
-       [board[counter], board[counter + 3], board[counter + 6]].count('O') == 3
-      return true
-    else
-      break if counter > 3
-      counter += 1
-    end
-  end
-
-  return true if [board[0], board[4], board[8]].count('X') == 3 ||
-                 [board[0], board[4], board[8]].count('O') == 3
-  return true if [board[2], board[4], board[6]].count('X') == 3 ||
-                 [board[2], board[4], board[6]].count('O') == 3
+def winne?(brd)
+  count = 0
+  played_tokens = WINNING_LINES.map do |line|
+                   count = 0
+                   line.select do |sqr|
+                     if brd[sqr] == 'X' || brd[sqr] == 'O'
+                       count += 1
+                     end
+                   end
+                   return true if count >= 3
+                 end
+  false
 end
 
 def board_full?(board)

@@ -1,42 +1,100 @@
-
 require 'pry'
 
-WINNING_LINES = [[0,1,2],[3,4,5],[6,7,8],
-[0,3,6],[1,4,7],[2,5,8],
-[0,4,8],[2,4,6]]
+WINNING_LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+                 [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                 [0, 4, 8], [2, 4, 6]]
+
+def prompt(message)
+  puts "==> #{message}"
+end
+
+def display_table(board)
+  system("clear")
+
+  puts "                             "
+  puts "          |       |          "
+  puts "      #{board[0]}   |   #{board[1]}   |  #{board[2]}         "
+  puts "   _______|_______|_______   "
+  puts "          |       |          "
+  puts "      #{board[3]}   |   #{board[4]}   |  #{board[5]}          "
+  puts "   _______|_______|_______   "
+  puts "          |       |          "
+  puts "      #{board[6]}   |   #{board[7]}   |  #{board[8]}          "
+  puts "          |       |          "
+  puts "                             "
+end
+
+def pick_first_player
+  ['Player', 'Computer'].sample
+end
+
+def initialize_board
+  new_board = []
+  (1..9).map { |num| new_board[num] = num }
+end
+
+def pick_computer_token(player_symbol)
+  player_symbol == 'X' ? 'O' : 'X'
+end
+
+def choose_token
+  loop do
+    puts ''
+    prompt "Would you like to be Xs or Os?"
+    player_piece = gets.chomp
+    return player_piece if ['X', 'O'].include?(player_piece)
+    prompt "Please choose an X or an O."
+  end
+end
 
 def swap(token)
   token == 'X' ? 'O' : 'X'
 end
 
 def clean_selections(options)
-  options.select { |sqr| sqr != 'X' && sqr != 'O' }
+  options.select { |sqr| sqr[0] != 'X' && sqr[0] != 'O' }
+end
+
+# refine
+def list_of_empty_indices(brd)
+  squares = brd.select { |num| num != 'O' && num != 'X' }
+  squares.map { |num| num - 1 }
+end
+
+def list_of_empty_squares(brd)
+  brd.select { |num| num != 'O' && num != 'X' }
+end
+
+def board_full?(board)
+  board.count('X') + board.count('O') == 9
 end
 
 def last_square(brd)
   square = brd.select { |sqr| sqr != 'X' && sqr != 'O' }
-  #binding.pry
   return square.join.to_i if square.count == 1
   return false if square.count > 1
 end
- 
+
+def square_free?(board, square)
+  board[square] != 'X' && board[square] != 'O'
+end
+
 def find_available_winning_plays(brd, line, token)
-  #line.select { |square| brd[square] != 'X' && brd[square] != 'O' }
   line.select { |square| brd[square] != token }
 end
 
 def two_squares_played(brd, token)
   play_options = []
 
-  WINNING_LINES.each_with_index do |line|
+  WINNING_LINES.each do |line|
     open_squares = find_available_winning_plays(brd, line, token)
 
     if open_squares.count == 1
       play_options << open_squares.map { |num| brd[num] }
     end
-
   end
-  binding.pry
+
+  play_options = clean_selections(play_options)
   return false if play_options.empty?
   clean_selections(play_options).sample.join.to_i
 end
@@ -52,13 +110,37 @@ def random_square(brd)
   end
 end
 
+def current_player_turn(board, current_player, token)
+  if current_player == 'Player'
+    player_turn(board, token)
+  else
+    computer_turn(board, token)
+  end
+end
+
+def switch_player(player)
+  player == 'Player' ? 'Computer' : 'Player'
+end
 
 def place_piece(brd, sqr, token)
   brd[sqr - 1] = token
+  sqr
+end
+
+def player_turn(brd, token)
+  square = ''
+  loop do
+    prompt "Select a square numbered #{list_of_empty_squares(brd).join(', ')}."
+    square = gets.chomp.to_i
+    break if list_of_empty_indices(brd).include?(square - 1)
+    prompt "That is not a valid choice!"
+    puts ''
+  end
+  brd[square - 1] = token
+  square
 end
 
 def computer_turn(brd, token)
- #binding.pry
   if last_square(brd)
     place_piece(brd, last_square(brd), token)
   elsif two_squares_played(brd, token)
@@ -68,101 +150,77 @@ def computer_turn(brd, token)
   elsif check_middle(brd)
     place_piece(brd, check_middle(brd), token)
   else random_square(brd)
-   # binding.pry
     place_piece(brd, random_square(brd), token)
- 
-
   end
-  
 end
 
+def winner?(brd, token)
+  count = 0
 
-token = 'O'
-board = [1,2,3,4,5,6,7,'O','O']
-computer_turn(board, token)
-p board
+  WINNING_LINES.map do |line|
+    count = 0
+    line.select do |sqr|
+      count += 1 if brd[sqr] == token
+    end
+    return true if count >= 3
+  end
+  false
+end
 
-# test last square
-token = 'O'
-board = ['X','O','X','X','O','X','O','X',9]
-computer_turn(board, token)
-p board
+loop do
+  system("clear")
+  prompt "Welcome to Tic Tac Toe!"
+  current_player = pick_first_player
+  player_token = choose_token
+  computer_token = pick_computer_token(player_token)
+  token = if current_player == 'Player'
+            player_token
+          else
+            computer_token
+          end
 
-# test offense
-token = 'O'
-board = ['O','O',3,4,5,6,7,8,9]
-computer_turn(board, token)
-p board
+  prompt "You are #{player_token}s"
+  prompt "Choosing who goes first...."
+  5.times do
+    sleep 0.1
+    print '.'
+  end
+  puts '.'
+  prompt "#{current_player} goes first!"
+  sleep 2
 
-# test offense different line should play 7
-token = 'O'
-board = [1,2,3,4,5,6,7,'O','O']
-computer_turn(board, token)
-p board 
+  board = initialize_board
+  display_table(board)
+  square = 10
+  loop do
+    square = current_player_turn(board, current_player, token)
+    break if winner?(board, token) || board_full?(board)
 
-# Test defense
-token = 'O'
-board = ['O',2,3,4,5,6,7,'X','X']
-computer_turn(board, token)
-puts 'should play 7'
-p board
+    sleep 1
+    display_table(board)
+    prompt "#{current_player} chooses to play square #{square}."
 
-# Test defense - choice over offense or defense.  should pick 7
-token = 'O'
-board = ['X','X',3,4,5,6,7,'O','O']
-computer_turn(board, token)
-p board
+    sleep 1
+    current_player = switch_player(current_player)
+    token = if current_player == 'Player'
+              player_token
+            else
+              computer_token
+            end
+    sleep 1
+  end
 
-# Test middle - should play 5
-token = 'O'
-board = ['X',2,3,4,5,6,7,8,'O']
-computer_turn(board, token)
-puts '- middle -'
-p board
+  display_table(board)
+  puts ''
 
-# Test random square
-token = 'O'
-board = ['X',2,3,4,'X',6,7,8,'O']
-computer_turn(board, token)
-puts '- random -'
-p board
-puts ''
+  if board_full?(board)
+    prompt "Looks like it is a tie!"
+  else
+    prompt "#{current_player} wins!"
+  end
 
-token = 'O'
-board = ['O','O',3,4,5,6,7,8,9]
-place_piece(board, two_squares_played(board, token), token)
-p board
-
-token = 'O'
-board = [1,2,3,4,5,6,7,'O','O']
-p two_squares_played(board, token)
-
-token = 'O'
-board = ['X',2,3,'X', 'O','O',7,'O','O']
-#binding.pry
-p two_squares_played(board, token)
-
-token = 'O'
-board = ['X','X',3,4,5,6,7,'O','O']
-p two_squares_played(board, token)
-
-token = 'O'
-board = [1,2,3,4,5,6,7,8,9]
-p two_squares_played(board, token)
-
-token = 'O'
-board = [1,'O',3, 'X', 4,5,'O',7, 'X', 9]
-p two_squares_played(board, token)
-
-puts 'Defense! +++++++++++++++++++++'
-
-token = 'O'
-board = ['X','X',3,4,5,6,7,8,9]
-p two_squares_played(board, swap(token))
-
-token = 'O'
-board = ['X','X',3,4,5,6,7,'O','O']
-p two_squares_played(board, token)
-
-arr = ['X',3,4,5,'O']
-p clean_selections(arr)
+  puts ''
+  prompt "Want to play again? (N)o or (Y)es."
+  play_again = gets.chomp.upcase
+  break if play_again == 'N'
+end
