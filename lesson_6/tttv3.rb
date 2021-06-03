@@ -33,8 +33,8 @@ def initialize_board
   (1..9).map { |num| new_board[num] = num }
 end
 
-def pick_computer_token(player_symbol)
-  player_symbol == 'X' ? 'O' : 'X'
+def pick_computer_token(player_token)
+  player_token == 'X' ? 'O' : 'X'
 end
 
 def choose_token
@@ -96,7 +96,7 @@ def two_squares_played(brd, token)
 
   play_options = clean_selections(play_options)
   return false if play_options.empty?
-  clean_selections(play_options).sample.join.to_i
+  play_options.sample.join.to_i
 end
 
 def check_middle(brd) # return single int
@@ -106,7 +106,7 @@ end
 def random_square(brd)
   loop do
     square = brd.sample
-    return square if (0..8).include?(square)
+    return square if list_of_empty_squares(brd).include?(square)
   end
 end
 
@@ -127,10 +127,21 @@ def place_piece(brd, sqr, token)
   sqr
 end
 
+def joinor(brd, separator, conjunction = 'and')
+  brd.each do |num|
+    if brd.index(num) == brd.length - 1
+      puts "#{conjunction} #{num} "
+    else
+      print "#{num}#{separator} "
+    end
+  end
+end
+
 def player_turn(brd, token)
   square = ''
   loop do
-    prompt "Select a square numbered #{list_of_empty_squares(brd).join(', ')}."
+    print "Select a square numbered "
+    joinor(list_of_empty_squares(brd), ',')
     square = gets.chomp.to_i
     break if list_of_empty_indices(brd).include?(square - 1)
     prompt "That is not a valid choice!"
@@ -179,7 +190,7 @@ loop do
             computer_token
           end
 
-  prompt "You are #{player_token}s"
+  prompt "You are #{player_token}s. The computer is #{computer_token}."
   prompt "Choosing who goes first...."
   5.times do
     sleep 0.1
@@ -198,7 +209,7 @@ loop do
 
     sleep 1
     display_table(board)
-    prompt "#{current_player} chooses to play square #{square}."
+    prompt "#{current_player} chooses to play square #{square} with #{token}."
 
     sleep 1
     current_player = switch_player(current_player)
@@ -207,7 +218,7 @@ loop do
             else
               computer_token
             end
-    sleep 1
+    sleep 0.5
   end
 
   display_table(board)
