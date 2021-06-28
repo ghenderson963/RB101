@@ -90,12 +90,12 @@ def display_hand(hand, dealer)
   hand.each do |card|
     if card == hand[-1]
       if dealer >= 2
-        puts "unknown card."
+        print "unknown card."
         break
       end
       puts "#{card[1]} of #{resolve_suit(card[0])} " if dealer == 1
     else
-      print "#{card[1]} of #{resolve_suit(card[0])} and "
+      print "==> #{card[1]} of #{resolve_suit(card[0])} and "
     end
   end
     prompt "For a total of #{total_hand(hand)}. " if dealer == 1
@@ -112,6 +112,7 @@ def dealer_turn(deck, hand)
     binding.pry
     hand << deal_card(deck)
   end
+
 end
 
 
@@ -123,18 +124,22 @@ loop do
   dealer_hand << deal_card(deck) << deal_card(deck)
   player_hand << deal_card(deck) << deal_card(deck)
   
+  answer = ''
   loop do 
+    prompt "You have a: "
     display_hand(player_hand, 1)
+    prompt "The dealer has: " 
     display_hand(dealer_hand, 2)
-    #break if twenty_one?(player_hand) || bust?(player_hand)
+    break if twenty_one?(player_hand) || bust?(player_hand)
   
+    2.times { puts '' }
     prompt "Hit or Stay?"
     puts ''
     answer = gets.chomp
-    binding.pry
+   # binding.pry
     break if bust?(player_hand) || answer == 'stay' || twenty_one?(player_hand)
     player_hand << deal_card(deck)
-    display_card(player_hand[0])
+    display_card(player_hand[-1])
   end
   binding.pry
   if bust?(player_hand)
@@ -144,6 +149,7 @@ loop do
   elsif answer == 'stay'
     prompt "You chose to stay."
     dealer_turn(deck, dealer_hand)
+    prompt "The dealer stays with: #{display_hand(dealer_hand, 1)}"
   else
     prompt "You chose to hit."
 
