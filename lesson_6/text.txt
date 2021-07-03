@@ -1,0 +1,11 @@
+Inspecting 1 file
+E
+
+Offenses:
+
+tttv1.rb:231:4: E: Lint/Syntax: unexpected token $end
+(Using Ruby 2.4 parser; configure using TargetRubyVersion parameter, under AllCops)
+end
+   
+
+1 file inspected, 1 offense detected
