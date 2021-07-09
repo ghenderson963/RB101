@@ -108,9 +108,13 @@ end
 
 def dealer_turn(deck, hand)
   loop do 
-    return hand if total_hand(hand) >= 16
-    binding.pry
+    break hand if total_hand(hand) >= 16
     hand << deal_card(deck)
+    binding.pry
+    prompt "The dealer dealt a #{display_card(hand[-1])} to themself."
+    puts ''
+    break if bust?(hand) || twenty_one?(hand)
+    display_hand(hand,1)
   end
 
 end
@@ -156,6 +160,11 @@ loop do
   end
 
 end
+
+puts "You won!" if twenty_one?(player_hand) 
+puts "You busted!" if bust?(player_hand)
+puts "dealer busted, You Win!" if bust?(dealer_hand)
+puts "dealer has 21!  You lose!" if twenty_one?(dealer_hand)
 
 # p twenty_one?(hand)
 # p total_hand(hand)
