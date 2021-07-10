@@ -180,7 +180,7 @@ loop do
   end
   player_hand << deal(deck)
   prompt "The dealer deals a..."
-  prompt "#{display_newest_card(player_hand[-1])}"
+  display_newest_card(player_hand[-1])
 
 end
 
