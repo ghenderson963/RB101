@@ -143,6 +143,15 @@ def twenty_one?(hand)
   total(hand) == 21
 end
 
+def dealer_hits(dealer_hand, deck)
+  prompt "The dealer has: "
+  prompt "#{display(dealer_hand)}"
+  prompt "The dealer hits..."
+  dealer_hand << deal(deck)
+  display_newest_card(dealer_hand[-1])
+  prompt "For a total of #{total(dealer_hand)}"
+end
+
 system "clear"
 puts ''
 deck = initialize_deck
@@ -181,7 +190,30 @@ loop do
   player_hand << deal(deck)
   prompt "The dealer deals a..."
   display_newest_card(player_hand[-1])
-
+  #system 'clear'
+  puts ''
 end
+
+prompt "Dealer's turn..."
+  loop do  
+    if twenty_one?(player_hand) || bust?(player_hand)
+      break
+    elsif twenty_one?(dealer_hand) || bust?(dealer_hand) 
+      display_results(dealer_hand, player_hand)
+      break
+    elsif total(dealer_hand) < total(player_hand)
+      system 'clear'
+      dealer_hits(dealer_hand, deck)  
+    elsif total(dealer_hand) >= 17
+      prompt "The dealer stays with #{total(dealer_hand)}"
+      display(dealer_hand)
+      display_results(dealer_hand, player_hand)
+      break
+    else
+      dealer_hits(dealer_hand, deck)
+    end
+    
+  end
+
 
 
