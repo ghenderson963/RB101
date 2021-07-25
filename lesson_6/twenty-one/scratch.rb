@@ -17,4 +17,27 @@
 #   check if they've busted or have 21
 # dealers turn
 # 
-# 
+
+def check_hit_stay(player)
+  prompt "Do you want to (h)it or (s)tay?"
+  answer = 
+  gets.chomp.downcase
+end
+
+def game_ending_state(dealer, player)
+  [dealer, player].select do |hand|
+    twenty_one?(hand) || bust?(hand)
+  end
+
+game_play(dealer, player, deck)
+  current_player = player 
+  if !game_ending_state(dealer, player).empty?
+    display_results(dealer, player)
+    break
+  else
+    display(player)
+    display(dealer)
+    answer = check_hit_stay(player) if current_player == player
+
+
+end

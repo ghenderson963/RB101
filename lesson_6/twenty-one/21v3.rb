@@ -63,23 +63,6 @@ def bust?(hand)
   total(hand) > 21
 end
 
-# def total_hand(hand)
-#   total = 0
-#   aces = count_aces(hand)
-#   hand.each do |card|
-#     total += card[1] unless card[1] == 11
-#   end
-
-#   if aces > 0 && total > 10
-#     total + (aces * 1)
-#   elsif aces > 0 && total <= 10
-#     total += 11
-#     total += (aces - 1).times { total += 1 }
-#   else
-#     total
-#   end
-# end
-
 def display(hand, display_last_card = true)
   hand.each do |card|
     if card == hand[-1]

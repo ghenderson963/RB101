@@ -31,31 +31,42 @@ if false
 # 2. empty string returns empty string
 # 3. palidromes must have the same case.
 
-halo - ha, hal, halo, al, alo, lo 
-slice[0,2]
-slice[0,3]
-slice[0,4] 
-i and j when j == string.length
-slice[1,2]
-slice[1,3]   j >= string.length
-slice[2,3]   j >= string.length
+# halo - ha, hal, halo, al, alo, lo 
+# slice[0,2]
+# slice[0,3]
+# slice[0,4] 
+# i and j when j == string.length
+# slice[1,2]
+# slice[1,3]   j >= string.length
+# slice[2,3]   j >= string.length
 
-2 loops 1 inner and 1 outer
-i = 0
-j = 2
-result = []
-loop do
+# 2 loops 1 inner and 1 outer
+# i = 0
+# j = 2
+# result = []
+# loop do
     
-  loop do
-    temp = ''
-    break if j >= str.length
-    temp = str[i,j]
-    result << if is_palindrome?(temp)
-    i += 1
-  end
+#   loop do
+#     temp = ''
+#     break if j >= str.length
+#     temp = str[i,j]
+#     result << if is_palindrome?(temp)
+#     i += 1
+#   end
 
   
 
-loop do
-  loop do
+# loop do
+#   loop do
     
+def dot_separated_ip_address?(input_string)
+  dot_separated_words = input_string.split(".")
+  while dot_separated_words.size > 0 do
+    word = dot_separated_words.pop
+    break unless is_an_ip_number?(word)
+  end
+  return true
+end
+
+dot_separated_ip_address?("12.34.56.33")
+
