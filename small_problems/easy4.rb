@@ -88,7 +88,11 @@ p century(11201) == '113th'
 #                                 Unless it is also divisible by 400
 
 def leap_year?(year)
-  year % 400 == 0 || year % 100 != 0 && year % 4 == 0
+  if year <= 1752
+    year % 4 == 0
+  else
+    year % 400 == 0 || year % 100 != 0 && year % 4 == 0
+  end
 end
 
 puts ' '
@@ -120,18 +124,105 @@ p leap_year?(400) == true
 
 # if year is before 1752 then if it is divisible by 4 is leap year
 #
+puts ''
+p leap_year?(2016) == true
+p leap_year?(2015) == false
+p leap_year?(2100) == false
+p leap_year?(2400) == true
+p leap_year?(240000) == true
+p leap_year?(240001) == false
+p leap_year?(2000) == true
+p leap_year?(1900) == false
+p leap_year?(1752) == true
+p leap_year?(1700) == true
+p leap_year?(1) == false
+p leap_year?(100) == true
+p leap_year?(400) == true
 
-leap_year?(2016) == true
-leap_year?(2015) == false
-leap_year?(2100) == false
-leap_year?(2400) == true
-leap_year?(240000) == true
-leap_year?(240001) == false
-leap_year?(2000) == true
-leap_year?(1900) == false
-leap_year?(1752) == true
-leap_year?(1700) == true
-leap_year?(1) == false
-leap_year?(100) == true
-leap_year?(400) == true
 
+# Write a method that searches for all multiples of 3 or 5 that lie between 1 and some other
+# number and then computes the sum of those multiples.
+
+# Is integer and greater than 1
+
+def multisum(num)
+  (1..num).to_a.inject(0) { |sum,num| (num % 3 == 0 || num % 5 == 0) ? sum += num : sum }
+
+  # total = 0
+  # 1.upto(num) do |num|
+    # if num % 3 == 0 || num % 5 == 0
+      # total += num
+    # end
+  # end
+    # total
+end
+
+puts ' '
+p multisum(3) == 3
+p multisum(5) == 8 # 3 + 5 = 8
+p multisum(10) == 33 # 3 + 5 + 6 + 9 + 10 = 33
+p multisum(1000) == 234168 
+
+# start at 1 and count up by 1
+# check if each sum is divisible by 3 or 5
+# if it is add it to the sum
+# else next number
+# return the summed number
+
+#  Write a method that takes an array of numbers and returns an array with the same number of elements
+# and each element has the running total from the original array.
+# input: array of numbers integers?
+# output: array with same number of elements
+
+# iterate through the array
+# keep a running sum of all the elements
+#   initialize a variable sum
+#   add the current element to the sum
+# the next element becomes the sum of the previous elements
+
+def running_total(arr)
+  sum = 0
+  # arr.map { |num| sum += num }
+  arr.inject([]) { |arr1, num| arr1 << sum += num }
+end
+
+
+puts ''
+p running_total([2, 5, 13]) == [2, 7, 20]
+p running_total([14, 11, 7, 15, 20]) == [14, 25, 32, 47, 67]
+p running_total([3]) == [3]
+p running_total([]) == []
+
+require 'pry'
+# Write a method that takes a String of digits, and returns the appropriate
+# number as an integer.  
+# do not worry about leading + or - signs, nor should you worry about invalid
+# characters.
+
+# break the string up into sub-strings.
+# start on the left and look up the value of the single string digit
+# multiply the integer returned by the number of characters times 10 to the integer - 1 
+# sum the numbers until you have the integer version.
+# 
+# 
+LETTERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+def letter_to_integer(letter)
+  #binding.pry
+  LETTERS.index(letter)
+end
+
+def string_to_integer(str)
+  result = 0
+  counter = 0
+  loop do
+    break if counter >= str.length
+    result += letter_to_integer(str[counter]) * (10 ** (str.length - counter - 1))
+    counter += 1
+  end
+  result
+end
+
+puts ''
+p string_to_integer('4321') == 4321 # 4000 + 300 + 20 + 1 = 4321
+p string_to_integer('570') == 570
