@@ -213,16 +213,32 @@ def letter_to_integer(letter)
 end
 
 def string_to_integer(str)
-  result = 0
-  counter = 0
-  loop do
-    break if counter >= str.length
-    result += letter_to_integer(str[counter]) * (10 ** (str.length - counter - 1))
-    counter += 1
-  end
-  result
+  convert = str.chars.map { |str| LETTERS.index(str) }
+
+  total = 0 
+  convert.each { |num| total = 10 * total + num }
+  total
+  # counter = 0
+  # loop do
+    # break if counter >= str.length
+    # result += letter_to_integer(str[counter]) * (10 ** (str.length - counter - 1))
+    # counter += 1
+  # end
+  # result
 end
 
 puts ''
-p string_to_integer('4321') == 4321 # 4000 + 300 + 20 + 1 = 4321
+p string_to_integer('4321') #== 4321 # 4000 + 300 + 20 + 1 = 4321
 p string_to_integer('570') == 570
+
+# Write a method that converts integers to hexadecimal
+
+# Take decimal number as dividend. Divide this number by 16 
+# (16 is base of hexadecimal so divisor here). Store the 
+#remainder in an array (it will be: 0 to 15 because of divisor 16,
+#replace 10, 11, 12, 13, 14, 15 by A, B, C, D, E, F respectively). 
+#Repeat the above two steps until the number is greater than zero.
+
+
+
+hexadecimal_to_integer('4D9f') == 19871
