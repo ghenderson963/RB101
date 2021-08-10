@@ -239,6 +239,19 @@ p string_to_integer('570') == 570
 #replace 10, 11, 12, 13, 14, 15 by A, B, C, D, E, F respectively). 
 #Repeat the above two steps until the number is greater than zero.
 
+# initialize a variable for the result of the division will be the original number
+# initialize a variable for the hexadecimal result
+# initialize a variable for the array to push the results to
+# create a loop
+# divide the result variable by 16
+# push the remainder into the array
+# break the loop when division goes below 0
+# Divide the number by 16
+# store the remainder (array?)
+# replace 10,11,12,13,14,15 with 'A','B','C','D','E','F'
+# repeat until < zero
+
+
 
 
 hexadecimal_to_integer('4D9f') == 19871
