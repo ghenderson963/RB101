@@ -283,6 +283,90 @@ def integer_to_hexadecimal(int)
 end
 
 puts ''
-#hexadecimal_to_integer('4D9f') == 19871
+
 p integer_to_hexadecimal(19871) == '4D9F'
 
+# write a method that converts from hexadecimal to integer
+# Start by multipling the hex number by 16
+# then raise it to the power of 0 
+# increase the power by 1 each time
+
+# Create a global array called LETTER_TO_INT
+# Create a global array called STRING_TO_INT
+# initialize a variable to assign the arguement to
+# initialize a variable to hold the result
+
+# break apart the hexadecimal string into sub strings
+# iterate through the array of strings
+# for each substring
+#  convert to integer using an array of numbers
+#    if it is a letter convert it to an integer using 
+#  add it to the running total
+# return the running total
+
+STRING_TO_INTEGER = {
+                      '1' => 1,
+                      '2' => 2,
+                      '3' => 3,
+                      '4' => 4,
+                      '5' => 5,
+                      '6' => 6,
+                      '7' => 7,
+                      '8' => 8,
+                      '9' => 9,
+                      'A' => 10,
+                      'B' => 11,
+                      'C' => 12,
+                      'D' => 13,
+                      'E' => 14,
+                      'F' => 15,
+                      'a' => 10,
+                      'b' => 11,
+                      'c' => 12,
+                      'd' => 13,
+                      'e' => 14,
+                      'f' => 15
+}
+
+def hexadecimal_to_integer(hex)
+  result = 0
+  counter = 0
+  hex.chars.reverse.each do |digit|
+    result += STRING_TO_INTEGER[digit] * (16 ** counter)
+    counter += 1
+  end
+  result 
+end
+
+p hexadecimal_to_integer('4D9f') == 19871
+
+# Write a method that takes a String of digits and returns the appropriate number as an integer.
+# The string may have a leading + or - sign.  
+# If the first character is a + the method should return a positive number
+# If the first character is a - the method should return a negative number
+# If no sign is given return a positive number
+
+#
+# convert the string to an array
+# iterate through the array
+# check if each character is a '-'
+#   if it contains a '-' multiply by -1
+#                   and drop the '-'
+#   if it contains a '+' remove the +
+# for each str convert to integer
+# 
+
+def string_to_signed_integer(str)
+  if str.include?('-')
+    str.delete!('-')
+    -1 * string_to_integer(str)
+  else
+    str.delete!('+')
+    string_to_integer(str)
+  end
+end
+
+puts ''
+p string_to_signed_integer('4321') == 4321
+p string_to_signed_integer('-570') == -570
+p string_to_signed_integer('+100') == 100
