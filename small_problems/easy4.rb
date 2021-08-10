@@ -239,19 +239,50 @@ p string_to_integer('570') == 570
 #replace 10, 11, 12, 13, 14, 15 by A, B, C, D, E, F respectively). 
 #Repeat the above two steps until the number is greater than zero.
 
-# initialize a variable for the result of the division will be the original number
-# initialize a variable for the hexadecimal result
+# initialize a variable and set the passed in arguement to it
+# 
 # initialize a variable for the array to push the results to
 # create a loop
-# divide the result variable by 16
-# push the remainder into the array
+# divide the result variable by 16 store the result and the remainder.
+# if the remainder contains 10,11,12,13,14,15 int_to_letter
+# push the result of the above into the array
 # break the loop when division goes below 0
-# Divide the number by 16
-# store the remainder (array?)
-# replace 10,11,12,13,14,15 with 'A','B','C','D','E','F'
-# repeat until < zero
+# join the letters and number in the result array and return
 
 
 
+INT_TO_LETTER = {
+  10 => 'A',
+  11 => 'B',
+  12 => 'C',
+  13 => 'D',
+  14 => 'E',
+  15 => 'F' 
+}
 
-hexadecimal_to_integer('4D9f') == 19871
+NUMBERS = [10, 11, 12, 13, 14, 15]
+
+def integer_to_letter(int)
+  INT_TO_LETTER[int]
+end
+
+def integer_to_hexadecimal(int)
+  number = int
+  result = []
+
+  loop do 
+    break if number <= 0
+    number, remainder = number.divmod(16)
+    if NUMBERS.include?(remainder)
+      result << integer_to_letter(remainder)
+    else
+      result << remainder
+    end
+  end
+  result.reverse.join 
+end
+
+puts ''
+#hexadecimal_to_integer('4D9f') == 19871
+p integer_to_hexadecimal(19871) == '4D9F'
+
