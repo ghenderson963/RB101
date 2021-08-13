@@ -487,15 +487,12 @@ p ascii_value('') == 0
 # format
 
 # format the remainder and the quotient in the 'hh:mm'
+
 def remove_extra_days(minutes)
   minutes.divmod(1440)
 end
 
-def find_positive(minutes)
-  1440 - minutes
-end
-
-def convert_positive(minutes)
+def convert_to_positive(minutes)
   return minutes *= -1 if minutes < 0
   minutes
 end
@@ -510,17 +507,12 @@ end
 
 def time_of_day(minutes)
   _, minutes = remove_extra_days(minutes)
-  minutes = convert_positive(minutes) if minutes < 0 
+  minutes = convert_to_positive(minutes) if minutes < 0 
   hh, mm = find_hours_minutes(minutes)
   format_time(hh, mm)
 end
 
 
-# hh, mm = remove_extra_days(3000)
-# p hh
-# p mm
-
-p convert_positive(-1234)
 p time_of_day(0) == "00:00"
 p time_of_day(-3) == "23:57" # 24 - 1 = 23  60 - 3 = 57
 p time_of_day(35) == "00:35" #24 + 1 = 0   35  - if before midnight starts at 00 
