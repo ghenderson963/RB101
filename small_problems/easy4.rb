@@ -370,3 +370,161 @@ puts ''
 p string_to_signed_integer('4321') == 4321
 p string_to_signed_integer('-570') == -570
 p string_to_signed_integer('+100') == 100
+
+# Write a method that takes a positive integer or zero and converts it to a string representation
+
+# build a hash that will convert integers to strings
+# initialize a variable to store the quotient
+# initialize a variable to store the array
+# create a loop 
+# divide the initial number
+# store the remainder and the quotient in variables
+# push the remainder into the hash
+# use the quatient for the next iteration of the loop
+# break when the loop is less than zero
+
+INT_TO_STRING = {
+  0 => '0',
+  1 => '1',
+  2 => '2',
+  3 => '3',
+  4 => '4',
+  5 => '5',
+  6 => '6',
+  7 => '7',
+  8 => '8',
+  9 => '9'      
+}
+
+def integer_to_string(int)
+  result = ''
+  quotient = int
+  loop do
+    quotient, remainder = quotient.divmod(10)
+    result.prepend(INT_TO_STRING[remainder])
+    break if quotient <= 0
+  end
+  result
+end
+
+p integer_to_string(4321) == '4321' #
+p integer_to_string(0) == '0'
+p integer_to_string(5000) == '5000'
+
+# Write a method that takes an integer, and converts it to a string representation
+
+# if the first character is a '-'
+#   '+' + integer_to_string(int)
+# else
+#   '-' + interger_to_string(int)
+#
+
+def signed_integer_to_string(int)
+  if int < 0
+    int *= -1
+    '-' + integer_to_string(int)
+  elsif int > 0
+    '+' + integer_to_string(int)
+  else
+    integer_to_string(int)
+  end
+end
+
+
+p signed_integer_to_string(4321) == '+4321'
+p signed_integer_to_string(-123) == '-123'
+p signed_integer_to_string(0) == '0'
+
+# Write a method that determines and returns the ASCII string value of a string that is passed in as
+# an argument.  
+# The ASCII string value is the sum of the ASCII values of every character in the string.  use String#ord
+
+# Iterate through the string
+# convert the substrings to ord
+# sum the numbers
+
+def ascii_value(str)
+  str.chars.inject(0) { |sum, char| sum += char.ord }
+end
+
+
+p ascii_value('Four score') == 984
+p ascii_value('Launch School') == 1251
+p ascii_value('a') == 97
+p ascii_value('') == 0
+
+# Write a method that takes a time using this minute-based format and returns the time of day in 24 hour
+# format (hh:mm).  Needs to work with any integer input.  Don't use Date or Time classes.
+
+## if the number is positive.
+##   first remove any extra days 
+##     divide the number by 1440
+##     drop the quotient
+##     remainder becomes the minutes
+##     divide the minutes by 60
+##     quotient = hh and remainder = mm
+
+## if the number is negative
+##   first remove the extra days
+##    divide the number by 1440
+##    drop the quotient
+##    subract the mm by 1440 for the minus
+##    divide the minutes by 60 hh = quotient mm = remainder
+##
+##   format the string to "hh:mm"
+
+
+# if the number is possitive
+# divide the time in minutes by 60 the quotient is the hour the remainder is the min.
+
+# if the number is negative subtract the number from 1440 (the numbers of minutes in 24 hours)
+# if the number is negative divide the number by 1440 drop the quotient and subtract the remainder from 1440
+# take the sum of the above and divide it by 60 the remainder is the minutes and the quotient is the hours "hh:mm"
+
+# remove any extra years
+# if negative convert to positive
+# find the minutes and hours
+# format
+
+# format the remainder and the quotient in the 'hh:mm'
+def remove_extra_days(minutes)
+  minutes.divmod(1440)
+end
+
+def find_positive(minutes)
+  1440 - minutes
+end
+
+def convert_positive(minutes)
+  return minutes *= -1 if minutes < 0
+  minutes
+end
+
+def find_hours_minutes(minutes)
+  hh, mm = minutes.divmod(60)
+end
+
+def format_time(hh, mm)
+  format('%02d:',hh) + format('%02d',mm)
+end
+
+def time_of_day(minutes)
+  _, minutes = remove_extra_days(minutes)
+  minutes = convert_positive(minutes) if minutes < 0 
+  hh, mm = find_hours_minutes(minutes)
+  format_time(hh, mm)
+end
+
+
+# hh, mm = remove_extra_days(3000)
+# p hh
+# p mm
+
+p convert_positive(-1234)
+p time_of_day(0) == "00:00"
+p time_of_day(-3) == "23:57" # 24 - 1 = 23  60 - 3 = 57
+p time_of_day(35) == "00:35" #24 + 1 = 0   35  - if before midnight starts at 00 
+p time_of_day(-1437) == "00:03"
+p time_of_day(3000) #== "02:00"
+p time_of_day(800) == "13:20" #800/60 
+p time_of_day(-4231) == "01:29"   #4231 / 1440 = 2 and 1351 1440 - 1351 = 89.divmod(60)
