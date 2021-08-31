@@ -315,3 +315,17 @@ print_in_box('')
 # |  |
 # |  |
 # +--+
+
+# You are given a method nameed spin_me that takes a string as an argument and returns a string that 
+# contains the same words, but with each word's characters reversed.  Given the method's implementation,
+# will the returned string be the same object as the one passed in as an argument or a different object?
+
+def spin_me(str)
+  str.split.each do |word|
+    word.reverse!
+  end.join(" ")
+end
+
+spin_me("hello world") # "olleh dlrow"
+
+# no you won't get the original object back because split will take the string and convert it into an array.  
