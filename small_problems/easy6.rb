@@ -67,20 +67,17 @@ def dms(flt)
   _,seconds = minutes.divmod(1)
   seconds *= SECONDS_PER_MINUTE
 
-
-  p degrees
-  p minutes
-  p seconds
-
+  format(%(#{degrees}#{DEGREE}%02d'%02d"),minutes, seconds)
 end
 
 
- dms(30) #== %(30°00'00")  # 30 = 30 00 00
- dms(76.73) #== %(76°43'48") #76 degrees + 0.73 degrees * 60 = 43.8 = 76 degrees 43.8 minutes x 60 = 48 == 76degrees 43 minutes 48 seconds 
- dms(254.6) #== %(254°36'00")
- dms(93.034773) #== %(93°02'05")
- dms(0) #== %(0°00'00")
- dms(360) #== %(360°00'00") || dms(360) == %(0°00'00")
+puts dms(30) #== %(30°00'00")  # 30 = 30 00 00
+puts dms(76.73) #== %(76°43'48") #76 degrees + 0.73 degrees * 60 = 43.8 = 76 degrees 43.8 minutes x 60 = 48 == 76degrees 43 minutes 48 seconds 
+puts dms(254.6) #== %(254°36'00")
+puts dms(93.034773) #== %(93°02'05")
+puts dms(0) #== %(0°00'00")
+puts dms(360) #== %(360°00'00") || dms(360) == %(0°00'00")
+
 
 dms(400) == %(400°00'00")
 dms(-40) == %(-40°00'00")
