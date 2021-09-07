@@ -78,7 +78,12 @@ puts dms(93.034773) #== %(93°02'05")
 puts dms(0) #== %(0°00'00")
 puts dms(360) #== %(360°00'00") || dms(360) == %(0°00'00")
 
+# modify the code above so it can handle degrees above 360 correctly.
+# 
+# divide the original number by 360
+# keep the remainder
+# 
 
-dms(400) == %(400°00'00")
-dms(-40) == %(-40°00'00")
-dms(-420) == %(-420°00'00")
+dms(400) == %(40°00'00")
+dms(-40) == %(320°00'00")
+dms(-420) == %(300°00'00")
