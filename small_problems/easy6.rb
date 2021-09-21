@@ -177,25 +177,116 @@ p find_fibonacci_index_by_length(10000) == 47847
 # don't use reverse or reverse!
 # so I want to return the original array
 
-# create a loop to iterate through the array
-# take the element at the end and make it the first element
-# take the element next to last etc.
+# first dump the original array into another array
+# create a loop to iterate through the arrays
+# in each iteration reverse add the elements into the original array  
+# repeat the above until the size of the arr is reached
+
+# initialize a new array
+# use map to iterate through the original array
+# initialize a counter at 0
+# create a loop 
+# with each iteration of the loop arr[i] = arr1[i - arr1.size]
+# break the loop when arr.size is reached
+
+# if counter is 0 other index must be -1
+# if counter is 1 other index must be -2
+# if counter is 2 other index must be -3
+
+def reverse!(list)
+  temp = []
+  return [] if list.empty?
+  list.map { |element| temp << element }
+  counter = 0
+  loop do
+    list[counter] = temp[-counter - 1]
+    counter += 1
+    break if counter >= list.size
+  end
+  list
+end
+
+p list = [1,2,3,4] # list[-1] moves to list[0]  list[-2] moves to list[1]  list[-3] moves to list[2]
+p result = reverse!(list)
+p result == [4, 3, 2, 1] # true
+p list == [4, 3, 2, 1] # true
+p list.object_id == result.object_id # true
+p 
+p list = %w(a b e d c)
+p reverse!(list) == ["c", "d", "e", "b", "a"] # true
+p list == ["c", "d", "e", "b", "a"] # true
+p 
+p list = ['abc']
+p reverse!(list) == ["abc"] # true
+p list == ["abc"] # true
+p 
+p list = []
+p reverse!(list) #== [] # true
+p list == [] # true
 
 
-list = [1,2,3,4]
-result = reverse!(list)
-result == [4, 3, 2, 1] # true
-list == [4, 3, 2, 1] # true
-list.object_id == result.object_id # true
+# Write a method that takes an Array and returns a new Array with the elements of the original list in reverse order.
 
-list = %w(a b e d c)
-reverse!(list) == ["c", "d", "e", "b", "a"] # true
-list == ["c", "d", "e", "b", "a"] # true
+# def reverse(list)
+#   temp_list = []
+#   temp = []
+#   return [] if list.empty?
+#   list.map { |element| temp << element }
+#   counter = 0
+#   loop do
+#     temp_list[counter] = temp[-counter - 1]
+#     counter += 1
+#     break if counter >= list.size
+#   end
+#   temp_list
+# end
 
-list = ['abc']
-reverse!(list) == ["abc"] # true
-list == ["abc"] # true
+def reverse(list)
+  list.inject([]) { |arr, element| arr.unshift(element) }
+end
 
-list = []
-reverse!(list) == [] # true
-list == [] # true
+p reverse([1,2,3,4]) == [4,3,2,1]          # => true
+p reverse(%w(a b e d c)) == %w(c d e b a)  # => true
+p reverse(['abc']) == ['abc']              # => true
+p reverse([]) == []                        # => true
+p 
+p list = [1, 3, 2]                      # => [1, 3, 2]
+p new_list = reverse(list)              # => [2, 3, 1]
+p list.object_id != new_list.object_id  # => true
+p list == [1, 3, 2]                     # => true
+p new_list == [2, 3, 1]                 # => true
+
+# Write a method that takes two arrays as arguments, and returns an array that contains all of the values from the argument Arrays.
+# There should be no duplication of values in the returned array even if there are duplicates in the original arrays.
+
+# assign the 2 arrays to variables
+# concatenate the 2 arrays together
+# remove the duplicate arrays
+
+def merge(arr1, arr2)
+  (arr1 + arr2).uniq
+end
+
+
+p merge([1, 3, 5], [3, 6, 9]) == [1, 3, 5, 6, 9]
+
+# Write a method that takes an array as an argument and returns 2 arrays (as a pair of nested arrays)
+# that contain the first half and second half of the original array.  If the original array contains an odd number of elements
+# the middle element should be placed in the first half array.
+
+# count the number of elements in the array
+# if the number is even
+#    split the array evenly
+# if the number is odd
+#    split the array with the extra element in the first array
+
+def halvsies(arr)
+  arr.partition { |element| arr.index(element) <= (arr.size) / 2 }
+end
+
+
+p halvsies([1, 2, 3, 4]) == [[1, 2], [3, 4]]
+p halvsies([1, 5, 2, 4, 3]) == [[1, 5, 2], [4, 3]]
+p halvsies([5]) == [[5], []]
+p halvsies([]) == [[], []]
+
