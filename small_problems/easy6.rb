@@ -280,8 +280,19 @@ p merge([1, 3, 5], [3, 6, 9]) == [1, 3, 5, 6, 9]
 # if the number is odd
 #    split the array with the extra element in the first array
 
+# initialize a variable to hold the result array
+# count the number of elements in the array
+# if the size of the array is odd
+#    slice the array with the extra element in the first array
+# else split the array in the middle
+
+
 def halvsies(arr)
-  arr.partition { |element| arr.index(element) <= (arr.size) / 2 }
+  result = []
+  size = (arr.size / 2.0).ceil
+  first_half = arr.slice(0,size)
+  second_half = arr.slice(size..-1)
+ [first_half, second_half]
 end
 
 
@@ -290,3 +301,108 @@ p halvsies([1, 5, 2, 4, 3]) == [[1, 5, 2], [4, 3]]
 p halvsies([5]) == [[5], []]
 p halvsies([]) == [[], []]
 
+# Given an unordered array and the information that exactly one value in the array occurs twice
+# (every other value occurs exactly once), how would you determine which value occurs twice?  
+# Write a method that will find and return the duplicate value that is known to be in the array.
+
+# iterate through the array 
+# in each iteration check the count of the element
+# if the count is greater than one return that number
+# if the count is 1 keep going
+
+# iterate through the array
+# if the count of an element is greater than 1
+#  return the element
+#
+
+def find_dup(arr)
+  arr.each do |element|
+    return element if arr.count(element) > 1
+  end
+end
+
+
+p find_dup([1, 5, 3, 1]) == 1
+p find_dup([18,  9, 36, 96, 31, 19, 54, 75, 42, 15,
+          38, 25, 97, 92, 46, 69, 91, 59, 53, 27,
+          14, 61, 90, 81,  8, 63, 95, 99, 30, 65,
+          78, 76, 48, 16, 93, 77, 52, 49, 37, 29,
+          89, 10, 84,  1, 47, 68, 12, 33, 86, 60,
+          41, 44, 83, 35, 94, 73, 98,  3, 64, 82,
+          55, 79, 80, 21, 39, 72, 13, 50,  6, 70,
+          85, 87, 51, 17, 66, 20, 28, 26,  2, 22,
+          40, 23, 71, 62, 73, 32, 43, 24,  4, 56,
+          7,  34, 57, 74, 45, 11, 88, 67,  5, 58]) == 73
+
+# Write a method named include? that takes an array and search value as arguments.  This method
+# should return true if the search value is in the array, false if it is not.  Don't use Array#include?
+
+# count the number of search values that are in the array
+# if the count is greater than 1 
+#    return true
+# else 
+#     return false
+# end
+
+# def include?(arr, search_value)
+#   return true if arr.count(search_value) >= 1
+#   return false 
+# end
+
+def include?(arr, search_value)
+  !!arr.find_index(search_value)
+end
+
+
+p include?([1,2,3,4,5], 3) #== true
+p include?([1,2,3,4,5], 6) == false
+p include?([], 3) == false
+p include?([nil], nil) == true
+p include?([], nil) == false
+
+# Write a method that takes a positive integer, n, as an argument, and displays a right triangle whose sides each 
+# have n stars.  The hypotenuse of the triangle should have one end at the lower-left of the triangle and the other
+# end at the upper-right.
+
+# put n - 1 ' ' then 1 *
+# put n - 2 ' ' then 2 **
+# put n - 3 ' ' then 3 ***
+
+# create a loop 
+# initialize a counter to zero
+# break when the counter equals n
+# each iteration 
+#    puts n - counter ' ' + counter *
+
+def triangle(n)
+  counter = 1
+  loop do 
+    break if counter >= n + 1
+    puts ' '
+    (n - counter).times { print ' ' }
+    counter.times { print '*' }
+    counter += 1
+  end
+puts ' '
+end
+
+
+triangle(5)
+
+#     *
+#    **
+#   ***
+#  ****
+# *****
+
+triangle(9)
+
+#         *
+#        **
+#       ***
+#      ****
+#     *****
+#    ******
+#   *******
+#  ********
+# *********
