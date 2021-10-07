@@ -145,3 +145,172 @@ end
   'd', 'de',
   'e'
 ]
+
+# Write a method that returns a list of all substrings of a string that are palindromic.
+# Each substring must consist of the same sequence of characters forwards as it does backwards.
+# The return value should be arranged in the same sequence as the substrings appear in the string.
+# include duplicate palindromes.
+# case matters.
+
+def palindromes(str)
+  results = []
+  counter = 0
+  loop do
+    break if counter >= str.length
+    
+    counter.upto(str.length - 1) do |indx|
+      sub_string = str.slice(counter..indx)
+      results << sub_string if palindrome?(sub_string)
+    end
+    counter += 1
+  end
+    results.to_a
+end
+
+def palindrome?(str)
+  str.length >= 2 && str == str.reverse && str.match(/[^1-9]/)
+end
+
+
+p palindromes('abcd') #== []
+p palindromes('madam') #== ['madam', 'ada']
+p palindromes('hello-madam-did-madam-goodbye') == [
+  'll', '-madam-', '-madam-did-madam-', 'madam', 'madam-did-madam', 'ada',
+  'adam-did-mada', 'dam-did-mad', 'am-did-ma', 'm-did-m', '-did-', 'did',
+  '-madam-', 'madam', 'ada', 'oo'
+]
+p palindromes('knitting cassettes') == [
+  'nittin', 'itti', 'tt', 'ss', 'settes', 'ette', 'tt'
+]
+
+# Write a method that takes two arguments: 
+# 1. is the starting number 
+# 2. is the ending number.
+# Print out all numbers between the 2 numbers, except if a 
+# number divisible by 3 print Fizz
+# if the number is divisible by 5 print "Buzz"
+# if the number is divisible by 3 and 5 print FizzBuzz
+# 
+
+#  use upto to iterate through all of the numbers
+# for each iteration 
+# if the number is divisible by 3 print 'Fizz'
+# if the number is divisible by 5 print 'Buzz'
+# if the number is divisible by 3 and 5 print 'FizzBuzz'
+# if neither print number
+
+def fizzbuzz(num1, num2)
+  num1.upto(num2) do |num|
+    if num % 3 == 0 && num % 5 == 0
+      print 'FizzBuzz'
+    elsif num % 3 == 0
+      print 'Fizz '
+    elsif num % 5 == 0
+      print 'Buzz '
+    else
+      print "#{num} "
+    end
+  end
+  puts ''
+end
+
+fizzbuzz(1, 15) # -> 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, FizzBuzz
+
+# Write a method that takes a string, and returns a new string in which every character is doubled.
+
+def repeater(str)
+  str.chars.map { |char| char + char }.join
+end
+
+
+p repeater('Hello') #== "HHeelllloo"
+p repeater("Good job!") == "GGoooodd  jjoobb!!"
+p repeater('') == ''
+
+
+
+# Write a method that takes a string, and returns a new string in which every constant character
+# is doubled.
+# Vowels (a,e,i,o,u), digits and punctuation and whitespace should not be doubled.
+
+# iterate through the string
+#   each iteration 
+#     check if the string is not an alpha character.
+#     if it is alph
+#       double it
+#     if not alpha
+#       do nothing
+# 
+
+def double_consonants(str)
+  str.chars.map do |char|
+    if char.match?(/[^a-zA-Z]/) || ['a','e','i','o','u'].include?(char)
+      char
+    else
+      char + char
+    end
+  end.join
+end
+
+
+p double_consonants('String') == "SSttrrinngg"
+p double_consonants("Hello-World!") == "HHellllo-WWorrlldd!"
+p double_consonants("July 4th") == "JJullyy 4tthh"
+p double_consonants('') == ""
+
+# Write a method that takes a positive integer as an argument and retuns that number with
+# its digits reversed.
+
+# Write a method that takes a positive integer as an argument and returns that number with its digits 
+# reversed.
+
+# check for leading zeros
+# divide the number by 10 until the modulas is not zero
+# the take the number
+#   turn to a string
+#   then an array
+#   reverse the array 
+#   join it back as a string
+#
+
+def reversed_number(int) 
+  loop do
+    result, mod = int.divmod(10)
+    break if mod != 0
+    int = result    
+  end
+  
+  int.to_s.reverse.to_i
+end
+
+p reversed_number(12345) #== 54321
+p reversed_number(12213) == 31221
+p reversed_number(456) == 654
+p reversed_number(12000) #== 21 # No leading zeros in return value!
+p reversed_number(12003) == 30021
+p reversed_number(1) == 1
+
+# Write a method that takes a non-empty string argument, and returns the middle character or characters
+# of the arguement.
+# If the argument has an odd length return exactly one character.
+# if the argument has an even length return exactly two characters.
+
+# divide the str by 2 and 
+# if the length of the string is odd
+#   divide by 2 and return the string at the index
+# if the length of the string is even
+#   divide the length by 2 and grab the substring at - 1
+
+def center_of(str)
+  if str.length.odd?
+    str[str.length / 2]
+  else
+    str[str.length / 2 - 1..str.length / 2]
+  end
+end
+
+p center_of('I love ruby') == 'e'
+p center_of('Launch School') == ' '
+p center_of('Launch') == 'un'
+p center_of('Launchschool') == 'hs'
+p center_of('x') == 'x'
