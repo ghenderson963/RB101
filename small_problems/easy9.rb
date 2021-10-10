@@ -104,3 +104,144 @@ p uppercase?('FOUR SCORE') == true
 p uppercase?('4SCORE!') == true
 p uppercase?('') == true
 
+# Write a method that takes a string as an argument and returns an array that contains every word from the 
+# string, to which you have appended a space and the word length.
+# Words in the string a separated by exactly one space
+# any sub-string is a word.
+
+def word_lengths(str)
+  str.split.map { |word| word + ' ' + word.length.to_s }
+end
+
+
+
+p word_lengths("cow sheep chicken") #== ["cow 3", "sheep 5", "chicken 7"]
+p word_lengths("baseball hot dogs and apple pie") ==
+   ["baseball 8", "hot 3", "dogs 4", "and 3", "apple 5", "pie 3"]
+p word_lengths("It ain't easy, is it?") == ["It 2", "ain't 5", "easy, 5", "is 2", "it? 3"]
+p word_lengths("Supercalifragilisticexpialidocious") ==
+   ["Supercalifragilisticexpialidocious 34"]
+p word_lengths("") == []
+
+# Write a method that takes a first name, a space, and a last name passed as a single String argument, and returns a 
+# string that contains the last name, a comma, a space, and the first name.
+
+def swap_name(full_name)
+  full_name.split.reverse.join(', ')
+end
+
+
+p swap_name('Joe Roberts') == 'Roberts, Joe'
+
+# Create a method that takes two integers as arguments.  The first argument is a count, and the second is the first number
+# of a sequence that your method will create.  The method should return an array that contains the same number of elements
+# as the count argument, while the values of each element will be multiples of the starting number.
+# the count argument will always have a value of 0 or greater, while the starting number can be any integer value.
+# if the count is 0 empyt list should be returned.
+
+# initialize an array with num as the only element
+# start at 1 and go upto 5
+# each iteration
+#   put the number + itself into results array
+# stop when you get upto the count number
+#  1 + 1 = 2
+#  2 + 1 = 3
+#  3 + 1 = 4
+#  4 + 1 = 5
+
+def sequence(count, num)
+  result = []
+  sum = 0
+  count.times do |number| 
+    sum = sum + num
+    result << sum
+  end
+  result
+end
+
+
+p sequence(5, 1) #== [1, 2, 3, 4, 5]
+p sequence(4, -7) #== [-7, -14, -21, -28]
+p sequence(3, 0) == [0, 0, 0]
+p sequence(0, 1000000) == []
+
+# Write a method that determines the mean of the 3 scores passed to it, and returns the letter value associated with
+# that grade.
+
+# calculate the average of the 3 scores
+# use a case statement to find the associated grade and return it.
+
+def get_grade(score1, score2, score3)
+  average = (score1 + score2 + score3) / 3
+
+  case average
+  when 90..100 then 'A'
+  when 80..89 then  'B'
+  when 70..79 then  'C'
+  when 60..69 then  'D'
+  else              'F'
+  end
+end
+
+p get_grade(95, 90, 93) == "A"
+p get_grade(50, 50, 95) == "D"
+
+# Write a method which takes a grocery list of fruits with quantities and converts it into an array of 
+# the correct number of each fruit.
+
+# iterate through the list
+# for each fruit count pair
+#   add the fruit aa many times as called for
+#   push into a results array
+# return the array
+
+def buy_fruit(list)
+  results = []
+
+  list.each do |item|
+    item[1].times { results << item[0] }
+  end
+  results
+end
+
+def buy_fruitv2(list)
+  list.map { |fruit, count| [fruit] * count }.flatten
+end
+
+
+p buy_fruitv2([["apples", 3], ["orange", 1], ["bananas", 2]]) #==
+  ["apples", "apples", "apples", "orange", "bananas","bananas"]
+
+  # given the array:
+  words =  ['demo', 'none', 'tied', 'evil', 'dome', 'mode', 'live',
+    'fowl', 'veil', 'wolf', 'diet', 'vile', 'edit', 'tide',
+    'flow', 'neon']
+
+    puts
+    puts 
+
+
+  # Write a program that prints out groups of words that are anagrams.  Anagrams are words that have the same exact letters
+  # in them but in a different order.
+
+  # iterate through the words array
+  # for each word
+  #   break it into individual letter substrings 
+  #   sort the array
+  # iterate through the rest of the words array comparing each word 
+  # push those words that match into a results array
+
+  def anagrams(words)
+    result = words.map do |word|
+      normalized_word = word.chars.sort
+      words.select do |outside_word|
+        outside_word.chars.sort == normalized_word
+      end
+    end
+       result.each { |list| p list } 
+  end
+
+anagrams(words) 
+# ["demo", "dome", "mode"]
+# ["neon", "none"]
+#(etc)
