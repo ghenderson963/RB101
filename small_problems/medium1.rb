@@ -1,4 +1,4 @@
-require 'pry'
+ require 'pry'
 # Write a method that rotates an array by moving the first element to the end of the array.  the original
 # arry should not be modified.
 # do not use Array#rotate or Array#rotate!
@@ -58,7 +58,7 @@ x = [1, 2, 3, 4]
 p rotate_arrayv2(x) == [2, 3, 4, 1]   # => true
 x == [1, 2, 3, 4]                 # => true
 
-
+# messing around with matrix problem
 
 arr = [
   [0,1,2,3],
@@ -101,12 +101,54 @@ def count(matrix)
     column -= 1
   end
 
-  loop do 
-    matrix[0][2]
-
-  result
 
 
 end
 
 p count(arr)
+
+# Write a method that can rotate the last n digits of a number.  For example
+
+# convert the integer to a string and then an arr
+# loop through the rotate array method the number of times as the argument
+
+# def rotate_arrayv3(arr)
+#   arr[1..-1] + [arr[0]]
+# end
+
+# def rotate_rightmost_digits(int, num)
+#   return int if num == 1
+#   result = int.to_s.chars
+#   counter = 0
+#   loop do 
+#     break if counter >= num
+#     result = rotate_arrayv3(result)
+#     counter += 1
+#   end
+# result.join.to_i
+# end
+
+# initialize a variable for the length of the string - 1
+# 1. fingure out how to rotate the last 2 numbers
+
+
+# str[0, str.length - 1 - num], str[length - 1] + str[str.length - num]
+# return the string to an integer
+
+# arr[1..-1] + [arr[0]]
+
+def rotate_rightmost_digits(int, num)
+  number = int.to_s.chars
+  number[-num..-1] = rotate_arrayv2(number[-num..-1])
+  number.join.to_i
+end
+
+
+p rotate_rightmost_digits(735291, 1) #== 735291
+p rotate_rightmost_digits(735291, 2) #== 735219
+p rotate_rightmost_digits(735291, 3) == 735912
+p rotate_rightmost_digits(735291, 4) == 732915
+p rotate_rightmost_digits(735291, 5) == 752913 
+p rotate_rightmost_digits(735291, 6) == 352917
+
+
