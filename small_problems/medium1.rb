@@ -185,3 +185,51 @@ end
 p lights(5)
 p lights(10)
 p lights(1000)
+
+# Write a method that displays a 4-pointed diamond in an n x n grid, where n is an odd integer that is 
+# supplied as an arguement to the method.
+# Assume that the argument will always be an odd integer.
+# 
+# first one goes at num / 2 + 1 and is only 1
+# second on goes at half way -1 and + 1 is 3
+# third one goes at half way - 2 and + 2 is 5
+# fourth - halfway - 3  and + 3 is 7
+# half_way = n / 2 + 1 
+# 4 spaces + 1 * + 4 spaces
+# 3 spaces + 3 * + 3 spaces
+# 2 spaces + 5 * + 2 spaces
+# 1 space +  7 * + 1 space
+# 9 *
+
+def display(number_of_spaces, number_of_ast)
+  number_of_spaces.times { print ' ' }
+  number_of_ast.times { print '*' }
+  number_of_spaces.times { print ' ' }
+  puts
+end
+
+def diamond(num)
+  number_of_ast = 1
+  number_of_spaces = num / 2 + 1
+
+  loop do
+    display(number_of_spaces, number_of_ast)
+    break if number_of_ast >= num
+    number_of_ast += 2
+    number_of_spaces -= 1
+  end
+
+  loop do 
+    number_of_ast -= 2
+    number_of_spaces += 1
+    display(number_of_spaces, number_of_ast)
+    break if number_of_ast <= 0
+  end
+  puts
+
+end
+
+diamond(1)
+diamond(3)
+diamond(9)
+
