@@ -261,37 +261,25 @@ diamond(9)
 def compute(stack, register, command)
 
   case command
-  when 'PUSH'
-     stack.push(register)
-     register
-  when 'ADD'
-    register = stack.pop + register
-  when 'SUB'
-    register = register - stack.pop
-  when 'MULT'
-    register = stack.pop * register
-  when 'DIV'
-    register = register / stack.pop
-  when 'MOD'
-    _, register = register.divmod(stack.pop)
-    register
-  when 'POP'
-    register = stack.pop
-  when 'PRINT'
-    p register
+  when 'PUSH'   then return register if stack.push(register)
+  when 'ADD'    then register + stack.pop
+  when 'SUB'    then register - stack.pop
+  when 'MULT'   then register * stack.pop
+  when 'DIV'    then register / stack.pop
+  when 'MOD'    then register % stack.pop
+  when 'POP'    then stack.pop
+  when 'PRINT'  then p register
   else
     puts 'ERROR: #{command} command.'
   end
-
 end
 
 
 def minilang(input)
-  commands = input.split
   stack = []
   register = 0
  
-  commands.each do |command|
+input.split.each do |command|
     if command.to_i.to_s == command
       register = command.to_i
     else
@@ -333,3 +321,173 @@ minilang('-3 PUSH 5 SUB PRINT')
 
 minilang('6 PUSH')
 # (nothing printed; no PRINT commands)
+
+# Write a method that takes a sentence string as input, and returns the same string with any sequence of the 
+# words 'zero', 'one', 'two','three','four','five''six''seven','eight','nine' converted to string of digits.
+
+# need to convert strings to numbers 'one' => 1
+# thinking hash my be a good idea for dictionary
+# input string
+# output string
+# check each word in the phrase to see if it is a number
+# if it is a number 
+#   convert it to a digit and replace it
+# else
+#   leave it in the array
+# 
+# need to iterate through each word to pull out punctuation
+# each iteration 
+#   partition any punctuation into a seperate element
+# 
+# 
+#  1. remove punc
+#  2. if it is a digit
+#    2.1. convert it
+#    2.2. add the puc
+#  3. else return itself
+
+
+def word_to_digit(phrase)
+  digits = %w(one two three four five six seven eight nine)
+
+  phrase.split.map do |word|
+    new_word, punc = word.chars.partition { |char| char.match(/[a-zA-Z]/) }
+    new_word = new_word.join
+    if digits.include?(new_word)
+      (digits.index(new_word) + 1).to_s + punc.join
+    else
+      word
+    end
+  end.join(' ')
+
+end
+
+def word_to_digitv2(phrase)
+  digits = %w(one two three four five six seven eight nine)
+
+  digits.each do |digit| 
+    phrase.gsub!(/\b#{digit}\b/, (digits.index(digit) + 1).to_s)
+  end
+  phrase
+end
+
+
+p word_to_digitv2('Please call me at five five five one two three four. Thanks.') #== 'Please call me at 5 5 5 1 2 3 4. Thanks.'
+
+# Write a recursive method that computes the nth Fibonacci number, where nth is an argument to the method.
+# f(n) = f(n - 1) + f(n-2)
+# f(5) = f(5 - 1) + f(5 -2)
+#            4 + 3 
+# 0,1,1,2,3,5,8,13,21,34
+# 1st 1 + 0 =                                               1         1
+# 2nd 0 + 1 = 1 result = previous_result + result     last_result = result     
+# 3rd 1 + 1 = 2 result = last_result + result         2last_result = result
+# 4th 1 + 2 = 3 result = last_result + result          last_result = result
+# 5th 2 + 3 = 5 result = last_result + result 
+# 6th 3 + 5 = 8
+# 
+# sum + next_num = sum 
+#
+# want to loop 6 times for the 6th which is 8
+# number + next_num = fib_num
+# number = fib_num
+#  loop through until you reach the original number
+# 1 st = 1
+# sum = 1
+# fib = first + 0
+# fib = fib + 1
+# fib = fib + 2
+# fib = fib + 3
+#   each iteration add 1 to n
+
+def fibonacci(n)
+ return 1 if n <= 2
+ fibonacci(n - 1) + fibonacci(n - 2)
+end
+
+
+
+p fibonacci(1) == 1
+p fibonacci(2) == 1
+p fibonacci(3) == 2
+p fibonacci(4) == 3
+p fibonacci(5) == 5
+p fibonacci(12) == 144
+p fibonacci(20) == 6765
+
+# Rewrite the above method without recursion
+# 1,1,2,3,5,8,13,21
+# 1 + 1 = 2
+# 1 + 2 = 3 result = result + previous_result
+# 3 + 2 = 5
+# 5 + 3 = 8
+
+# create a variable to store the integer result
+# create a variable to store the last result
+# create a variable to store the new result
+# if the number passed in is 1 return 1
+#  new_result = last_result + result
+#  last_result = result
+#  result = new_result
+
+#  
+
+def fibonacciv2(num)
+result = 1
+last_result = 0
+new_result = 0
+
+return 1 if num <= 1
+  2.upto(num) do
+    new_result = result + last_result
+    last_result = result
+    result = new_result
+  end
+  
+  result
+end
+
+p fibonacciv2(20) == 6765
+p fibonacciv2(100) == 354224848179261915075
+# p fibonacciv2(100_001) # => 4202692702.....8285979669707537501
+
+def fibonacciv3(num)
+  last, result = [1, 0]
+  
+  2.upto(num) do
+    result, last = [last, result + last]
+  end
+
+  last
+
+end
+
+p fibonacciv3(20) #== 6765
+p fibonacciv3(100) #== 354224848179261915075
+
+# write a method that returns the last digit of the nth Fibonacci number
+# 
+
+def fibonacci_last(num)
+  result = fibonacciv3(num)
+  result.to_s[-1].to_i
+end
+
+def fibonacci_lastv2(num)    # speed this up to grab the last test
+  last_2 = [0, 1]
+
+  2.upto(num) do 
+    last_2 = [last_2.last, (last_2.first + last_2.last) % 10]
+  end
+
+  last_2.last
+end
+
+
+
+p fibonacci_lastv2(15)        # -> 0  (the 15th Fibonacci number is 610)
+p fibonacci_lastv2(20)        # -> 5 (the 20th Fibonacci number is 6765)
+p fibonacci_lastv2(100)       # -> 5 (the 100th Fibonacci number is 354224848179261915075)
+p fibonacci_lastv2(100_001)   # -> 1 (this is a 20899 digit number)
+p fibonacci_lastv2(1_000_007) # -> 3 (this is a 208989 digit number)
+p fibonacci_lastv2(123456789) # -> 4
