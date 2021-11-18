@@ -38,19 +38,55 @@
   # 5. print the number of words in the longest sentence
   # 6. print the longest sentence
 
-  sentences = File.read("./longest_sentence.txt").split
-    longest_sentence = []
-    temp_array = []
+sentences = File.read("./Frankenstien.txt").split
+longest_sentence = []
+temp_array = []
 
-    sentences.each do |word|
-      temp_array << word
-      if ['.', '!', '?'].include?(word[-1])
-        longest_sentence = temp_array if temp_array.length > longest_sentence.length
-        temp_array = []
-      end
-    end
-    p longest_sentence.join(' ')
-    p longest_sentence.length
+sentences.each do |word|
+  temp_array << word
+  if ['.', '!', '?'].include?(word[-1])
+    longest_sentence = temp_array if temp_array.length > longest_sentence.length
+    temp_array = []
+  end
+end
+
+p longest_sentence.join(' ')
+p longest_sentence.length
+
+
+
+# Write a method that returns true if the word passed in as an argument can be spelled from this set of blocks
+# false otherwise.
+
+# take the word passed in and pass each letter to the blocks arr
+#   iterate through the blocks array 
+#     check if the letter matches one of the letters
+#     if it does match put a 1 in the value of the hash
+#     if it doesn't match move to the next pair
+#     once you've gone through the blocks array
+#     check if any value of the hash is greater than 1
+#     if it is greater than 1 return false
+#     if it is not greater than 1 return true
+
+# initialize an empty hash counts = Hash.new(0)
+# 
+
+pre_blocks = "B:O   X:K   D:Q   C:P   N:A
+ G:T   R:E   F:S   J:W   H:U
+ V:I   L:Y   Z:M"
+ blocks = pre_blocks.split(' ').map { |pair| pair.delete(':') }
+ COUNTS = blocks.each_with_object({}) { |pair, counts| counts[pair] = 0 }
+
+def block_word(word)
+  
+
+end
+
+
+# store as a nested array
+p block_word?('BATCH') == true
+p block_word?('BUTCH') == false
+p block_word?('jest') == true
 
 
 
