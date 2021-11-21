@@ -68,18 +68,28 @@ p longest_sentence.length
 #     if it is greater than 1 return false
 #     if it is not greater than 1 return true
 
-# initialize an empty hash counts = Hash.new(0)
-# 
+# split the string argument into letter substrings and assign it to a variable
+# iterate through the substrings
+#   1. see if the letter is included in any of the keys.
+#   2. if it is included in add 1 to the value of that key
+#   3. 
+def get_counts
+  pre_blocks = "B:O   X:K   D:Q   C:P   N:A
+   G:T   R:E   F:S   J:W   H:U
+   V:I   L:Y   Z:M"
+   blocks = pre_blocks.split(' ').map { |pair| pair.delete(':') }
+   blocks.each_with_object({}) { |pair, counts| counts[pair] = 0 }
+end
 
-pre_blocks = "B:O   X:K   D:Q   C:P   N:A
- G:T   R:E   F:S   J:W   H:U
- V:I   L:Y   Z:M"
- blocks = pre_blocks.split(' ').map { |pair| pair.delete(':') }
- COUNTS = blocks.each_with_object({}) { |pair, counts| counts[pair] = 0 }
-
-def block_word(word)
-  
-
+def block_word?(word)
+  counts = get_counts
+  word.chars.each do |letter|
+    counts.each do |block,v_|
+      counts[block] += 1 if block.include?(letter.upcase)
+    end
+  end
+  p counts
+  !counts.values.any? { |count| count > 1 }
 end
 
 
