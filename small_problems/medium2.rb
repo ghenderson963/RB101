@@ -38,7 +38,7 @@
   # 5. print the number of words in the longest sentence
   # 6. print the longest sentence
 
-sentences = File.read("./Frankenstien.txt").split
+sentences = File.read("./sentences.txt").split
 longest_sentence = []
 temp_array = []
 
@@ -74,9 +74,9 @@ p longest_sentence.length
 #   2. if it is included in add 1 to the value of that key
 #   3. 
 def get_counts
-  pre_blocks = "B:O   X:K   D:Q   C:P   N:A
-   G:T   R:E   F:S   J:W   H:U
-   V:I   L:Y   Z:M"
+  pre_blocks = "B:O   X:K   D:Q   
+   C:P   N:A    G:T   R:E   F:S
+   J:W   H:U    V:I   L:Y   Z:M"
    blocks = pre_blocks.split(' ').map { |pair| pair.delete(':') }
    blocks.each_with_object({}) { |pair, counts| counts[pair] = 0 }
 end
@@ -88,16 +88,22 @@ def block_word?(word)
       counts[block] += 1 if block.include?(letter.upcase)
     end
   end
-  p counts
+
   !counts.values.any? { |count| count > 1 }
 end
-
 
 # store as a nested array
 p block_word?('BATCH') == true
 p block_word?('BUTCH') == false
 p block_word?('jest') == true
 
+BLOCKS = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM)
 
+  def block_wordv2?(word)
+    str = word.upcase
+    BLOCKS.none? { |block| str.count(block) > 1 }
+  end
 
-  
+p block_wordv2?('BATCH') #== true
+p block_wordv2?('BUTCH') == false
+p block_wordv2?('jest') == true
