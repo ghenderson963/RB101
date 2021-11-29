@@ -107,3 +107,86 @@ BLOCKS = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM)
 p block_wordv2?('BATCH') #== true
 p block_wordv2?('BUTCH') == false
 p block_wordv2?('jest') == true
+
+
+# Write a method that takes a string and returns a hash that contains 3
+# 1 the percentage of characters in the string that are lowercase
+# 2 the percentage of characters that are uppercase
+# 3 characters that are neither 
+# each string will contain at least 1 character
+
+# percentage is num / total number * 100
+# count the lowercase letters and then find percentage of total
+# count the uppercase letters and then find percentage of total
+# count numbers spaces and punc and find percentage of total
+
+# initialize a hash that has the correct keys with percentage = 0
+# initalize a variable for lowercase
+# initalize a variable for uppercase
+# intialize a variable for other
+# initialize a variable and set the total to the length of the total string
+# lowercase = (str.count('a-z') / total_characters * 100).rount(1)
+# uppercase = (str.count('A-Z') / total_characters * 100).round(1)
+# other = (str.count('^a-zA-Z) / total_characters * 100).rount(1)
+
+def letter_percentages(str)
+  results = {lowercase: 0, uppercase: 0, neither: 0 }
+  total_characters = str.length
+  results[:lowercase] = (str.count('a-z').to_f / total_characters.to_f * 100).round(1)
+  results[:uppercase] = (str.count('A-Z').to_f / total_characters.to_f * 100).round(1)
+  results[:neither] = (str.count('^a-zA-Z').to_f / total_characters.to_f * 100).round(1)
+  results
+end
+
+p letter_percentages('abCdef 123') == { lowercase: 50.0, uppercase: 10.0, neither: 40.0 }
+p letter_percentages('AbCd +Ef') == { lowercase: 37.5, uppercase: 37.5, neither: 25.0 }
+p letter_percentages('123') == { lowercase: 0.0, uppercase: 0.0, neither: 100.0 }
+
+
+# Write a method that takes a string as an argument, and returns true if all 
+# parentheses in the string are properly balanced, false otherwise.
+# Parentheses must occur in matchig '(' and ')' pairs.
+
+# need to find a '(' then find a ')'
+# The number of '(' needs to match the number of ')'
+# str.count('(') == str.count(')')
+# will be false if ')' occurs before '('
+# will be false if '(' occurs without another ')'
+
+# count the number of '(' and ')' 
+# for every '(' + 1 for every ')' -1
+# break out if the total goes below 0 because it means you have a unbalanced phrase
+# 
+# iterate through the characters of the str
+# when you find a '(' count + 1
+# when you find a ')' count - 1
+# break if count goes below 0
+# return false if the count isn't 0
+
+# initialize a variable to track the count
+# iterate through the characters of the string
+#   if character = '(' add 1
+#   if character = ')' subtract 1
+#   check if count below zero and break if it is
+# check that count == zero
+
+def balanced?(str)
+  count = 0
+  str.chars.each do |letter|
+    count += 1 if ['(','[','{'].include?(letter)
+    count -= 1 if [')',']','}'].include?(letter)
+    break if count < 0
+  end
+  count.zero?
+end
+
+
+p balanced?('What (is) this?') == true
+p balanced?('What is) this?') == false
+p balanced?('What (is this?') == false
+p balanced?('((What) (is this))?') == true
+p balanced?('((What)) (is this))?') == false
+p balanced?('Hey!') == true
+p balanced?(')Hey!(') == false
+p balanced?('What ((is))) up(') == false
+p balanced?('Gary is t)(he be()st') == false
