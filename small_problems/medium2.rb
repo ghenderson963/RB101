@@ -200,7 +200,7 @@ p balanced?('Gary is t)(he be()st') == false
 # isosceles - 2 sides are of equal length and a 3rd is different
 # scalene - all 3 sides are of different length
 # invalid - sum of the lengths of the 2 shortest sides must be greater than
-#           the length of the longest side.
+#           the length of the longest side. s1 + s2 > s3
 #           lengths must be greater than 0
 
 # Check for invalid
@@ -209,10 +209,105 @@ p balanced?('Gary is t)(he be()st') == false
 # check isosceles
 # check scalene
 
+# input is int or float
+# outputs is a symbol :isosceles or :scalene or :equalateral :invalid
 
+# invalid if [s1,s2,s3].sort. shortest_side + middle_side > longest_side
+#                             [s1, s2, s3].all? { |side| side > 0 }
+# equalateral if   s1 == s2 == s3
+#    s1 == s2 && s2 == s3
+# isosceles   if   s1 == s2 || s2 == s3 || s1 == s3
+#                  s1 == s3
+#                  s2 == s3
+#                  
+#                  
+# scalene     if   s1 != s2 && s2 != s3 && s1 != s3
+#                  s1 != s2
+#                  s2 != s3
+#                  s1 != s3
+# invalid  else    s1 or s2 or s3 < 0
+#                  s1 + s2 != s3
 
-triangle(3, 3, 3) == :equilateral
-triangle(3, 3, 1.5) == :isosceles
-triangle(3, 4, 5) == :scalene
-triangle(0, 3, 3) == :invalid
-triangle(3, 1, 1) == :invalid
+# equif s1 == s2 && s2 == s3
+
+# check invalid
+# check equilateral
+# check scalene
+# else invalid
+
+# arrange the sides by length and create variables for them
+# check for type
+# return type as a symbol
+
+def triangle(s1, s2, s3)
+  ss = [s1,s2,s3].sort.first
+  ms = [s1,s2,s3].sort[1]
+  ll = [s1,s2,s3].sort.last
+
+  case 
+  when ss + ms < ll || ss <= 0 || ms <= 0 || ll <= 0
+    :invalid
+  when ss == ll && ms == ll && ss == ms
+    :equilateral
+  when ss == ms || ms == ll || ss == ll
+    :isosceles
+  when ss != ms && ms != ll && ss != ll
+    :scalene
+  else
+    :no
+  end
+end
+
+p triangle(3, 3, 3) #== :equilateral
+p triangle(3, 3, 1.5) #== :isosceles
+p triangle(3, 4, 5)#== :scalene
+p triangle(0, 3, 3) #== :invalid
+p triangle(3, 1, 1) #== :invalid
+
+puts ''
+# Write a method that takes the 3 angles of a triangle as arguments, and returns a symbol :right, :acute, :obtuse, or :invalid
+# depending on whether the triangle is a right, acute, obtuse or invalid triangle.
+# integer valued angles 
+# specific in degrees
+
+# right triangle - one angle is 90 
+# acute triangle - all 3 angles are less than 90
+# obtuse triangle - one angle is greater than 90 
+# valid triangle - the sum of the angles must be exactly 180
+# valid triangle - all angles greater than 0
+
+# inputs 3 integers
+# output symbol
+
+# initialize an array and place the angles in it
+
+# check for invalid
+#   see if 0 is included or
+#   sum of sides != 180
+# check for right
+#   look for 90 
+# check for obtuse
+#   look for greater than 90
+# check for acute
+#   make sure all angles are less than 90
+
+def triangle(a1, a2, a3)
+  angles = [a1, a2, a3]
+
+  case 
+  when angles.include?(0) || angles.inject(:+) != 180
+    :invalid
+  when angles.include?(90)
+    :right
+  when angles.any? { |angle| angle > 90 }
+    :obtuse 
+  else 
+    :acute
+  end
+end
+
+p triangle(60, 70, 50) == :acute
+p triangle(30, 90, 60) == :right
+p triangle(120, 50, 10) == :obtuse
+p triangle(0, 90, 90) == :invalid
+p triangle(50, 50, 50) == :invalid
