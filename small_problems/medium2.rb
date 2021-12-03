@@ -190,3 +190,29 @@ p balanced?('Hey!') == true
 p balanced?(')Hey!(') == false
 p balanced?('What ((is))) up(') == false
 p balanced?('Gary is t)(he be()st') == false
+
+
+# Write a method that takes the lengths of the 3 sides of a triangle as arguments,
+# and returns a symbol :equilateral, :isosceles, :scalene, or :invalid
+# depending on whether the triangle is equilateral, isoceles, scalene, or invalid.
+
+# equilateral - all 3 sides are of equal length
+# isosceles - 2 sides are of equal length and a 3rd is different
+# scalene - all 3 sides are of different length
+# invalid - sum of the lengths of the 2 shortest sides must be greater than
+#           the length of the longest side.
+#           lengths must be greater than 0
+
+# Check for invalid
+#   is the sum of the lengths of the 2 shortest sides longer than the longest side
+# check for equilateral
+# check isosceles
+# check scalene
+
+
+
+triangle(3, 3, 3) == :equilateral
+triangle(3, 3, 1.5) == :isosceles
+triangle(3, 4, 5) == :scalene
+triangle(0, 3, 3) == :invalid
+triangle(3, 1, 1) == :invalid
