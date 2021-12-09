@@ -311,3 +311,181 @@ p triangle(30, 90, 60) == :right
 p triangle(120, 50, 10) == :obtuse
 p triangle(0, 90, 90) == :invalid
 p triangle(50, 50, 50) == :invalid
+
+
+# Write a method that returns the number of Friday the 13ths in the year given by an argument.  You may assume that the year is greater
+# than 1752.
+
+# iterate through the year adding the friday the 13ths to an array
+# count the array and return the number.
+
+# date = Date(2015)
+# date = date + 12
+# count += 1 if date.friday?
+# date = date + next_month
+# break if date > date + 364
+
+# initialize a variable to 0
+# set date to the first day of the year passed in by the arguement
+# move forward 12 days to the 13th
+# Create a loop 
+# check if the day is a friday
+#   if it is a friday add one to count
+# break if date > date + 364
+# date = date.next_month
+# return count
+require 'date'
+
+def friday_13th(year)
+  count = 0
+  date = Date.new(year) + 12
+
+  loop do 
+    count += 1 if date.friday?
+    break if date.year > year
+    date = date.next_month
+  end
+  count 
+end
+
+p friday_13th(2015) == 3
+p friday_13th(1986) == 1
+p friday_13th(2019) == 2
+
+
+# featured number is
+#    odd
+#    multiple of 7
+#    digits only appear once 
+
+# Write a method that takes a single integer as an argument, and returns the next featured number that is greater than the argument
+# Return an error message if there is no next featured number.
+
+# input: integer
+# output: integer / print an error message  
+#     returns the next featured number > original number
+
+# if num even - return 
+
+# use some sort of loop loop through numbers and break when you get to the next featured number
+# count up by 7 
+# check if featured output
+# 
+# 
+# loop
+#   number = number + 1 
+#   check not a multiple of 7
+#     next
+#   check even
+#     next 
+#    check only appear once
+#      return current_number
+#    print error
+# 
+
+def featured(num)
+  loop do 
+    num += 1
+    return num if num % 7 == 0 && num.odd? && num.to_s.chars.uniq == num.to_s.chars
+    break if num >= 9_876_543_210
+  end
+  puts "There is no number that satisfies the requirements."
+end
+
+
+p featured(12) == 21
+p featured(20) == 21
+p featured(21) == 35
+p featured(997) == 1029
+p featured(1029) == 1043
+p featured(999_999) == 1_023_547
+# p featured(999_999_987) == 1_023_456_987
+
+#featured(9_999_999_999) # -> There is no possible number that fulfills those requirements
+
+# Write a method that takes an Array as an argument, and sorts that Areray using the bubble sort algorithm.  
+# The sort will be in-place.  Mutate the array passed as an argument.  
+# the array contains at least two elements.
+
+# input array
+# output sorted array
+
+# iterate through the array
+# at each pass 
+#  compare each pair of consecutive elements 
+#   if the first is greater than the second then swap
+# loop 
+#   arr[counter], arr[counter + 1] =  arr[counter + 1], arr[counter + 1]
+#   counter + 1
+# break if arr.length < counter
+# 
+# 
+# pass in and array
+# create a loop where with each iteration
+#   if [counter] > arr[counter + 1]
+#      swap
+#      add one to counter
+#   break if counter >= arr.length
+#   return arr
+
+# first pass compare arr[0] to arr[1]
+# second pass compare arr[1] to arr[2]
+# third pass compare arr[2] to arr[3]
+
+def bubble_sort!(arr)
+  iterations = 0
+  loop do 
+    break if iterations > arr.length
+    counter = 0
+  
+    loop do 
+      break if counter >= arr.length - 1
+      if arr[counter] > arr[counter + 1]
+        arr[counter], arr[counter + 1] = arr[counter + 1], arr[counter] 
+      end
+      counter += 1
+    end
+    
+    iterations += 1
+  end
+  arr
+end
+
+p array = [5, 3]
+p bubble_sort!(array)
+p array == [3, 5]
+p 
+p array = [6, 2, 7, 1, 4]
+p bubble_sort!(array)
+p array == [1, 2, 4, 6, 7]
+p 
+p array = %w(Sue Pete Alice Tyler Rachel Kim Bonnie)
+p bubble_sort!(array)
+p array == %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
+
+# Write a method that computes the difference between the square of the sum of the first n positive integers and the sume 
+# of the squares of the first n positive integers.
+
+# (1 + 2 + 3)^2 = 36
+# (1^2 + 2^2 + 3^2) = 14
+
+# add up the square of the sums
+#  
+# add up the numbers and then square them
+# subtract the 2 numbers
+# return the integer
+
+# Can I assume the numbers are positive?
+# assume no floats
+
+def sum_square_difference(int)
+  sum_of_squares = (1..int).to_a.inject(:+)**2
+  square_of_sum = (1..int).to_a.inject() { |sum,num| sum += num ** 2 }
+  sum_of_squares - square_of_sum
+end
+
+p sum_square_difference(3) == 22
+   # -> (1 + 2 + 3)**2 - (1**2 + 2**2 + 3**2)
+p sum_square_difference(10) == 2640
+p sum_square_difference(1) == 0
+p sum_square_difference(100) == 25164150 
