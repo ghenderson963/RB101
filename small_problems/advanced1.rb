@@ -170,3 +170,92 @@ star(11)
 #   * * *
 #  *  *  *
 # *   *   *
+
+# A 3 x 3 matrix can be represented by an array of arrays in which the main array and all
+# of the sub-arrays has 3 elements.
+
+# Write a method that takes a 3 x 3 matrix and returns the transpose of the original matrix.  
+# do not modify the original matrix
+
+# to transpose a matrix you swap the rows by the columns
+# build a new matrix by using matrix[0][0], matrix[1][0], matrix[2][0]
+#                             matrix[0][1], matrix[1][1], matrix[2][1]
+#                              matrix[0][2], matrix[1][2], matrix[2][2]
+
+# input 3 x 3 nested array
+# output 3 x 3 nested array
+# initialize a variable to hold the changing array
+# iterate through the nested arrays result = [[]]
+#  first loop 
+#    take the first index of all the arrays and make an array
+#     loop
+#       iterate through the 3 arrays each iteration grab the 1st index and shovle it into an array 
+#            .each_with_object { |result, arr| result << arr[0]}
+#                new_array << 
+#    take the second index of all the arrays and make an array
+#    take the third index of all the arrays and make an array
+#  put all of the arrays in another array
+
+def transpose(matrix)
+  new_matrix = []
+  
+  0.upto(2) do |num|
+    temp = matrix.each_with_object([]) { |arr, result| result << arr[num] }
+    new_matrix << temp
+  end
+  new_matrix
+end
+
+matrix = [
+  [1, 5, 8],
+  [4, 7, 2],
+  [3, 9, 6]
+]
+
+  # [
+  # [matrix[0][0], matrix[1][0], matrix[2][0]],
+  # [matrix[0][1], matrix[1][1], matrix[2][1]],
+  # [matrix[0][2], matrix[1][2], matrix[2][2]]
+  # ]
+
+
+new_matrix = transpose(matrix)
+
+
+p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
+p matrix == [[1, 5, 8], [4, 7, 2], [3, 9, 6]]
+
+# Write a transpose! method change the matrix in place.
+
+# must move the arrays around in the larger array 
+# 2 loops 
+#  1st loop
+#     create a counter to track the columns
+#  2nd loop 
+#     create a counter to track the rows
+#   shovle new arrays into the old matrix
+
+#  pull out the first element of the rows and put them in an array
+#   initialize a variable to store the array
+#   iterate over the rows
+#   in each iteration take the first element [0][0] [0][1]  [0][2]
+#   add the array into the matrix
+#  pull out the second element of the rows and put them in an array
+#   
+#  pull out the third element of the rows and put them in an array 
+# push the 3 rows back into the matrix
+#  
+# iterate through the row and move 
+#     
+def transposev2(matrix)
+  (0..2).each do |column_number|
+    (0..2).map do |row_number|
+      matrix[column_number][row_number] = matrix[row_number][column_number]
+    end
+  end
+   matrix
+end
+
+new_matrix = transposev2(matrix)
+p new_matrix #== [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
+p matrix #== [[1, 5, 8], [4, 7, 2], [3, 9, 6]]
