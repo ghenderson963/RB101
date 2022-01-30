@@ -512,3 +512,153 @@ p arr
 #       result << element1
 #     end
 #   end
+
+# Write a method that takes two sorted Arrays as arguments, and returns a new array that contains all elements
+# from both arguments in sorted order.
+# input: 2 sorted arrays
+# output 1 sorted array
+
+# compare the first 2 elements
+# if one is smaller than the other put it in the array then put the other element
+# if they are the same size choose one to put in the array first
+# if one of them is nil just put the other in  nil? 
+# stop when you get to the end of the longest array
+# return the new array
+
+# iterate through both arrays
+# on each iteration
+#   check if nil if it is nil then only add the none nil elements
+
+#   if elements equal put them both in the result array
+#   if element1 > element2 check the element2 next element isn't equal
+#   if they are equal add the 2 elements and the 1 
+#   if element2 > element1 check the element1 next element for equal
+#   if it is equal move all 3 to the array
+
+# what if I did it element by element?
+# setup the result array
+# check the 2 numbers put the lowest one in the result array
+# move to the other array and check the number against the result array and then the other array put the lowest in the result
+# 
+
+# [1, 5, 9], [2, 6, 8]
+# check first element vs. second element put lower in result -- result = [1]
+# if [arr1[0],arr2[0]].include?(nil)
+#   arr1[0].nil? ? result << arr2[0] : result << arr1[0]
+# arr1[0] <= arr2[0] then result << arr1[0]
+# arr2[0] <= arr1[0] then result << arr2[0] 
+# arr2[0] <= arr1[1] then result << arr2[0]
+# check check the 2nd number 2nd array against the next element in arr1 put lower in result array -- result = [1,2]
+# start over only with arr1 second element
+# 
+
+# def merge(arr1, arr2) 
+#   result = []
+
+#   indx = 0
+#   loop do
+#     break if result.size >= arr1.size + arr2.size
+#     #binding.pry
+#     if 
+#     result << arr2[indx + 1] if arr2[indx + 1].nil?  && arr2[indx + 1] <= arr1[indx]
+#     case
+#     when [arr1[indx],arr2[indx]].include?(nil)
+#       #binding.pry
+#       arr1[indx].nil? ? result << arr2[indx] : result << arr1[indx]
+#     when arr1[indx] <= arr2[indx]
+#       result << arr1[indx]
+#     when arr2[indx] <= arr1[indx] then result << arr2[indx]
+    
+#     end
+    
+  
+#   #binding.pry
+#   #result << arr2[indx] << arr1[indx + 1] if arr1[indx + 1].nil? || arr2[indx] <= arr1[indx + 1]
+#   indx += 1
+
+#   end
+
+#   result
+# end
+
+# def merge(arr1, arr2)
+#   result = []
+#   indx = indx
+#   loop do 
+#     break if indx >= arr1.size && indx >= arr2.size
+#     case
+#     when arr1[indx].nil?
+#       result << arr2[indx]
+#     when arr2[indx].nil?
+#       result << arr1[indx] 
+#     when arr1[indx] == arr2[indx]
+#       result << arr1[indx] << arr2[indx]
+#     when arr1[indx] < arr2[indx]
+#        if arr1[indx + 1] == arr1[indx]
+#         result << arr1[indx + 1] << arr1[indx] << arr2[indx]
+#        else
+#         result << arr1[indx] << arr2[indx]
+#        end
+#     when arr2[indx] < arr1[indx]
+#       if arr2[indx + 1] == arr2[indx]
+#         result << arr2[indx + 1] << arr2[indx] << arr1[indx]
+#        else
+#         result << arr2[indx] << arr1[indx]
+#        end
+#       result << arr2[indx] << arr1[indx]
+#     else    
+#       puts 'pancake'
+#     end
+#   indx += 1
+#   end
+# result 
+# end
+
+# start with arr1
+# iterate through the array in each iteration
+# check if there are any elements > that current element.
+#   if there is put it in result
+#   if there isn't put original number in result.
+#   keep track of the arr2 number and start there the next iteration
+#  
+
+# def merge(arr1, arr2)
+#   result = []
+#   indx = 0
+
+#   loop do
+#     break if result.size >= arr1.size + arr2.size
+#     arr1.each_with_object([]) { |element1| element1 == arr2[indx] }
+#     binding.pry
+#     indx += 1
+#   end
+#   result
+# end
+
+# iterate through arr1
+# in each iteration 
+#  set up a loop 
+#   the loop breaks when element2 > element1
+#   put arr2[element2] in as long as it is less than or equals element1
+# put element1 in result
+
+def merge(arr1, arr2)
+  result = []
+  indx = 0
+  arr1.each do |element1|
+    loop do
+      break if indx >= arr2.size || element1 <= arr2[indx]
+      result << arr2[indx]
+      indx += 1
+    end
+    result << element1
+  end
+
+  result.concat(arr2[indx..-1])
+end
+
+p merge([1,1,2,6], [1,1,2,5]) == [1,1,1,1,2,2,5,6]
+p merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
+p merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
+p merge([], [1, 4, 5]) == [1, 4, 5]
+p merge([1, 4, 5], []) == [1, 4, 5]
