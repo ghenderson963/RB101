@@ -1,4 +1,4 @@
-require 'pry'
+  require 'pry'
 
 # Write a madlibs program that reads in some text from a file and then plugs in a selection of randomized nouns,
 # verbs, adjectives, and adverbs into that text and prints it.
@@ -662,3 +662,107 @@ p merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
 p merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
 p merge([], [1, 4, 5]) == [1, 4, 5]
 p merge([1, 4, 5], []) == [1, 4, 5]
+
+# Sort an array of passed in values using merge sort.  You can assume that 
+# this array may contain only one type of data.  And that data may be either 
+# all numbers or all strings.
+# input array
+# output same? array sorted
+
+# Get to each element being an array of only itself.
+# length of the input array
+# itterate through the input array
+#   on each iteration
+#     put each element in an array
+#     add it to the output array
+#  
+# from left to right Merge the numbers back together 2 at a time
+#    also sort the numbers each time you do it
+#     if only one number 
+#   
+# [[9],[5],[7],[1]]
+# [[5,9]]
+
+
+  # going to return and array with the num
+  # every time it is going to half the number of arrays by adding [[arr[x], arr[y]]
+
+  # 
+  # 
+
+  # After some googling
+  # 1. if there is only 1 element in the array return the array
+  # 2. divide the array recursively into 2 halfs until you can't divide it anymore
+  # 3. merge the smaller lists into new list in sorted order
+
+# 1. if intial array == 1 return array
+# 2. divide the array
+# 3. sort the smaller lists
+#    loop through each arr at the same time
+#      each iteration if a > b
+#        add b to the end of c
+#        remove b[0] from b
+#       else
+#         add a to the end of c
+#         remove a from a
+#       end if 
+#     end loop
+
+# def merge(arr1, arr2)
+#   arr3 = []
+#   element = 0
+#   temp_arr1 = arr1
+#   temp_arr2 = arr2
+
+#   loop do 
+#     break if arr1.empty? || arr2.empty?
+#      binding.pry
+#     if arr1[element] > arr2[element]
+#       arr3 << arr2[element]
+#       arr1.delete(temp_arr2[element])
+#     else
+#       arr3 << arr1[element]
+#       arr2.delete(temp_arr1[element])
+#     end
+#     element += 1
+#   end
+
+#   temp_arr1.each do |ele|
+#     arr3 << ele
+#     arr1.delete(arr1[ele])
+#   end
+
+#   temp_arr2.each do |ele|
+#     arr3 << ele
+#     arr2.delete(arr2[ele])
+#   end
+  
+#   arr3
+
+# end
+
+
+def merge_sort(arr)
+  size = arr.length
+  return arr if size == 1
+
+  arr1 = arr.slice(0..size/2 - 1)
+  arr2 = arr.slice(size/2 - 1 + 1..-1)
+  
+  arr1 = merge_sort(arr1)
+  arr2 = merge_sort(arr2)
+
+  merge(arr1, arr2)
+end
+
+
+
+
+
+
+p merge_sort([9, 5, 7, 1]) == [1, 5, 7, 9]
+p merge_sort([5, 3]) == [3, 5]
+p merge_sort([6, 2, 7, 1, 4]) == [1, 2, 4, 6, 7]
+p merge_sort(%w(Sue Pete Alice Tyler Rachel Kim Bonnie)) == %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
+p merge_sort([7, 3, 9, 15, 23, 1, 6, 51, 22, 37, 54, 43, 5, 25, 35, 18, 46]) == [1, 3, 5, 6, 7, 9, 15, 18, 22, 23, 25, 35, 37, 43, 46, 51, 54]
+
